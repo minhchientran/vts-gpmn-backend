@@ -1,9 +1,6 @@
 package vn.viettel.core.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedBy;
@@ -11,6 +8,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import vn.viettel.core.enums.DBStatus;
 
 import java.time.LocalDateTime;
 
@@ -19,11 +17,11 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public class EntityWithAwareInfo extends EntityWithULID {
-    @Column
+    @Column(updatable = false)
     @CreatedBy
     private String createdBy;
 
-    @Column
+    @Column(updatable = false)
     @CreatedDate
     private LocalDateTime createdAt;
 
@@ -36,5 +34,6 @@ public class EntityWithAwareInfo extends EntityWithULID {
     private LocalDateTime updatedAt;
 
     @Column
-    private Integer status;
+    @Enumerated(EnumType.ORDINAL)
+    private DBStatus status = DBStatus.ACTIVE;
 }

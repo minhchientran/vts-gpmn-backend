@@ -5,10 +5,9 @@ import com.example.authservice.entities.SupplierDatabaseInfo;
 import com.example.authservice.repositories.SupplierDatabaseInfoRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import vn.viettel.core.data.response.Response;
 
 @RestController
@@ -19,11 +18,12 @@ public class SupplierController {
 
     ModelMapper modelMapper;
 
-    @Autowired
     public SupplierController(
-            SupplierDatabaseInfoRepository supplierDatabaseInfoRepository
+            SupplierDatabaseInfoRepository supplierDatabaseInfoRepository,
+            ModelMapper modelMapper
     ) {
         this.supplierDatabaseInfoRepository = supplierDatabaseInfoRepository;
+        this.modelMapper = modelMapper;
     }
     @PostMapping("/database")
     Response createDatabase(@RequestBody SupplierDatabaseInfoData supplierDatabaseInfoData) {

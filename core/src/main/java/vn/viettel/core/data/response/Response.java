@@ -1,5 +1,6 @@
 package vn.viettel.core.data.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import org.springframework.data.domain.Page;
 
@@ -11,13 +12,14 @@ import java.util.Map;
 public class Response {
     private int code;
     private String message;
-    private  Map<String, Object> payload;
+    private Object payload;
     public Response(int code, String message, Object object) {
         if (object != null) {
             Map<String, Object> payload = new HashMap<>();
             if (object instanceof List<?>) {
                 payload.put("totalRecords", ((List<?>) object).size());
                 payload.put("content", object);
+                this.payload = payload;
             }
             else if (object instanceof Page<?>) {
                 payload.put("totalRecords", ((Page<?>) object).getTotalElements());
@@ -25,11 +27,11 @@ public class Response {
                 payload.put("page", ((Page<?>) object).getPageable().getPageNumber());
                 payload.put("size", ((Page<?>) object).getPageable().getPageSize());
                 payload.put("content", ((Page<?>) object).getContent());
+                this.payload = payload;
             }
             else {
-                payload.put("data", object);
+                this.payload = object;
             }
-            this.payload = payload;
         }
         this.code = code;
         this.message = message;
@@ -41,7 +43,7 @@ public class Response {
     }
 
     public Response(Object object) {
-        new Response(200, "success", object);
+        this(200, "success", object);
     }
 
     public static Response ok() {

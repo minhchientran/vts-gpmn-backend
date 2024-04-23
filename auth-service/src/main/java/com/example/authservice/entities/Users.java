@@ -27,7 +27,7 @@ public class Users extends EntityWithAwareInfo implements UserDetails {
     private String password;
 
     @Column
-    private String subsystem;
+    private Integer subsystem;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
