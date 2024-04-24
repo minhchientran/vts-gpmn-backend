@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 public class SupplierModuleData {
+    private String supplierId;
     private String moduleId;
     private LocalDateTime activeDate;
     private Integer activeTime;

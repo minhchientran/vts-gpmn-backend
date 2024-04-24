@@ -4,11 +4,12 @@ import com.example.authservice.services.CommonService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import vn.viettel.core.controllers.BaseController;
 import vn.viettel.core.data.response.Response;
 
 @RestController
 @RequestMapping(value = {"/v1/common"})
-public class CommonController {
+public class CommonController extends BaseController {
     private final CommonService commonService;
 
     public CommonController(

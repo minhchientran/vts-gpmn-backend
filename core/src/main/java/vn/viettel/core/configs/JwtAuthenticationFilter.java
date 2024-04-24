@@ -11,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import vn.viettel.core.data.users.UserTokenData;
 import vn.viettel.core.services.JwtService;
 import vn.viettel.core.utilities.Constant;
@@ -23,13 +24,15 @@ import java.util.Map;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final ObjectMapper objectMapper;
     private final JwtService jwtService;
-
+    private final HandlerExceptionResolver handlerExceptionResolver;
     public JwtAuthenticationFilter(
             ObjectMapper objectMapper,
-            JwtService jwtService
+            JwtService jwtService,
+            HandlerExceptionResolver handlerExceptionResolver
     ) {
         this.objectMapper = objectMapper;
         this.jwtService = jwtService;
+        this.handlerExceptionResolver = handlerExceptionResolver;
     }
 
     @Override
@@ -37,25 +40,26 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
-    ) throws ServletException, IOException {
-        final String authHeader = request.getHeader(Constant.AUTHORIZATION);
-
-        if (authHeader == null || !authHeader.startsWith(Constant.BEARER)) {
+    ) {
+        try {
+            final String authHeader = request.getHeader(Constant.AUTHORIZATION);
+            if (authHeader != null && authHeader.startsWith(Constant.BEARER)) {
+                final String jwt = authHeader.substring(Constant.BEARER.length());
+                if (jwtService.isTokenValid(jwt)) {
+                    Claims claims = jwtService.extractAllClaims(jwt);
+                    UserTokenData userTokenData =
+                            objectMapper.convertValue(new HashMap<>(claims), UserTokenData.class);
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                            userTokenData.getUsername(), null, null
+                    );
+                    authToken.setDetails(userTokenData);
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
+            }
             filterChain.doFilter(request, response);
-            return;
         }
-
-        final String jwt = authHeader.substring(Constant.BEARER.length());
-        if (jwtService.isTokenValid(jwt)) {
-            Claims claims = jwtService.extractAllClaims(jwt);
-            UserTokenData userTokenData =
-                    objectMapper.convertValue(new HashMap<>(claims), UserTokenData.class);
-            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                    userTokenData.getUsername(), null, null
-            );
-            authToken.setDetails(userTokenData);
-            SecurityContextHolder.getContext().setAuthentication(authToken);
+        catch (Exception exception) {
+            handlerExceptionResolver.resolveException(request, response, null, exception);
         }
-        filterChain.doFilter(request, response);
     }
 }
