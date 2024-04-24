@@ -49,4 +49,7 @@ public class Response {
     public static Response ok() {
         return new Response(null);
     }
+    public static Response ok(Object object) {
+        return new Response(object);
+    }
 }

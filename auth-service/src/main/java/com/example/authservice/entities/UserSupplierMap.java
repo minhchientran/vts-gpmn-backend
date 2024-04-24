@@ -6,16 +6,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import vn.viettel.core.entities.EntityWithAware;
+import vn.viettel.core.enums.Subsystem;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "users")
-public class Users extends EntityWithAware {
+@Table(name = "user_supplier_map")
+public class UserSupplierMap extends EntityWithAware {
     @Column
-    private String username;
+    private String userId;
     @Column
-    private String password;
+    private String supplierId;
+    @Column
+    @Enumerated(EnumType.ORDINAL)
+    private Subsystem subsystem;
 }

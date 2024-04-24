@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 @EnableMethodSecurity
 @SpringBootApplication(
         scanBasePackages = {
-                "vn.viettel.core.services",
+                "vn.viettel.core.data",
                 "vn.viettel.core.configs",
+                "vn.viettel.core.services",
                 "com.example.authservice.configs",
                 "com.example.authservice.controllers",
                 "com.example.authservice.repositories",

@@ -5,4 +5,5 @@ public class Constant {
     public static String AUTHORITIES = "authorities";
     public static String BEARER = "Bearer ";
     public static String PASSWORD = "password";
+    public static String SEPARATE = "&";
 }

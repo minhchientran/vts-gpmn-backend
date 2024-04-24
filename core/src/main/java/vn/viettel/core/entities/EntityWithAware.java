@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Setter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public class EntityWithAwareInfo extends EntityWithULID {
+public class EntityWithAware extends EntityWithULID {
     @Column(updatable = false)
     @CreatedBy
     private String createdBy;

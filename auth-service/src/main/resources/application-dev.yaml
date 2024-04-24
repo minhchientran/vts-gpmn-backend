@@ -1,6 +1,7 @@
 spring:
   jpa:
     show-sql: true
+    open-in-view: false
 #server:
 #  servlet:
 #    context-path: /auth

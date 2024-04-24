@@ -1,34 +1,25 @@
 package com.example.authservice.controllers;
 
-import com.example.authservice.data.suppliers.SupplierDatabaseInfoData;
-import com.example.authservice.entities.SupplierDatabaseInfo;
-import com.example.authservice.repositories.SupplierDatabaseInfoRepository;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
+import com.example.authservice.data.suppliers.SupplierCreateData;
+import com.example.authservice.services.SupplierService;
 import org.springframework.web.bind.annotation.*;
+import vn.viettel.core.controllers.BaseController;
 import vn.viettel.core.data.response.Response;
 
 @RestController
-@RequestMapping(value = {"/v1/suppliers"})
-public class SupplierController {
+@RequestMapping(value = {"/v1/supplier"})
+public class SupplierController extends BaseController {
 
-    SupplierDatabaseInfoRepository supplierDatabaseInfoRepository;
-
-    ModelMapper modelMapper;
+    private final SupplierService supplierService;
 
     public SupplierController(
-            SupplierDatabaseInfoRepository supplierDatabaseInfoRepository,
-            ModelMapper modelMapper
+            SupplierService supplierService
     ) {
-        this.supplierDatabaseInfoRepository = supplierDatabaseInfoRepository;
-        this.modelMapper = modelMapper;
+        this.supplierService = supplierService;
     }
-    @PostMapping("/database")
-    Response createDatabase(@RequestBody SupplierDatabaseInfoData supplierDatabaseInfoData) {
-        SupplierDatabaseInfo supplierDatabaseInfo = modelMapper.map(supplierDatabaseInfoData, SupplierDatabaseInfo.class);
-        supplierDatabaseInfoRepository.save(supplierDatabaseInfo);
+    @PostMapping
+    Response createSupplier(@RequestBody SupplierCreateData supplierCreateData) {
+        supplierService.createSupplier(supplierCreateData);
         return Response.ok();
     }
 }

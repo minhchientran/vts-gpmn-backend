@@ -4,7 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.*;
-import vn.viettel.core.entities.EntityWithAwareInfo;
+import vn.viettel.core.entities.EntityWithAware;
 
 @Getter
 @Setter
@@ -12,7 +12,7 @@ import vn.viettel.core.entities.EntityWithAwareInfo;
 @NoArgsConstructor
 @Entity
 @Table(name = "supplier_database_info")
-public class SupplierDatabaseInfo extends EntityWithAwareInfo {
+public class SupplierDatabase extends EntityWithAware {
     @Column
     private String url;
     @Column

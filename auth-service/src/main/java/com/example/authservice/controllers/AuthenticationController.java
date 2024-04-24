@@ -19,7 +19,6 @@ public class AuthenticationController extends BaseController {
     private final JwtService jwtService;
     private final AuthenticationService authenticationService;
 
-
     public AuthenticationController(JwtService jwtService, AuthenticationService authenticationService) {
         this.jwtService = jwtService;
         this.authenticationService = authenticationService;
@@ -30,7 +29,7 @@ public class AuthenticationController extends BaseController {
     public Response authenticate(@RequestBody LoginBody loginBody) {
         Authentication authenticatedUser = authenticationService.authenticate(loginBody);
         String jwtToken = jwtService.generateToken(authenticationService.authentication2claims(authenticatedUser));
-        return new Response(new LoginResponse(jwtToken, jwtService.getExpirationTime()));
+        return Response.ok(new LoginResponse(jwtToken));
     }
 
 }
