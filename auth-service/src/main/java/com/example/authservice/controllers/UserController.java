@@ -26,4 +26,5 @@ public class UserController extends BaseController {
         userService.createUser(userRegisterData);
         return Response.ok();
     }
+
 }

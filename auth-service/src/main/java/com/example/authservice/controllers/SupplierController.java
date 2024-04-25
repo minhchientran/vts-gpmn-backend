@@ -29,4 +29,5 @@ public class SupplierController extends BaseController {
         supplierService.createSupplierModule(supplierModuleData);
         return Response.ok();
     }
+
 }

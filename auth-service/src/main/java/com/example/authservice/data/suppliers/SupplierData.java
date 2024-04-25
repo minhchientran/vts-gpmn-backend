@@ -11,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SupplierData {
+    private String id;
     private String code;
     private String identityCode;
     private String name;

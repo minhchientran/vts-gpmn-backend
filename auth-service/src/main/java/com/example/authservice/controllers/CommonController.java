@@ -21,4 +21,5 @@ public class CommonController extends BaseController {
     public Response getListStatus() {
         return Response.ok(commonService.getListStatus());
     }
+
 }

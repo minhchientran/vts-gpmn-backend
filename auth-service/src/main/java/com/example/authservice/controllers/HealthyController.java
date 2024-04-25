@@ -23,4 +23,5 @@ public class HealthyController extends BaseController {
     public Response healthCheck() throws RuntimeException {
         return Response.ok(entityManager.unwrap(Session.class).isConnected());
     }
+
 }
