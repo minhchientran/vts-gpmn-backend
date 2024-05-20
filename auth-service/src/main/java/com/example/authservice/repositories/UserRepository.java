@@ -1,6 +1,7 @@
 package com.example.authservice.repositories;
 
 import com.example.authservice.entities.Users;
+import lombok.EqualsAndHashCode;
 import org.springframework.data.jpa.repository.Query;
 import vn.viettel.core.data.users.UserTokenData;
 import vn.viettel.core.enums.Subsystem;
@@ -13,7 +14,8 @@ public interface UserRepository extends BaseRepository<Users> {
             "   u.id, " +
             "   usm.subsystem, " +
             "   s.id, " +
-            "   s.identityCode " +
+            "   s.identityCode, " +
+            "   coalesce(null, null) " +
             ") " +
             "FROM Users u " +
             "JOIN UserSupplierMap usm " +

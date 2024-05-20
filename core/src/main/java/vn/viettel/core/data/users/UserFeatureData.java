@@ -1,14 +1,15 @@
-package com.example.authservice.data.modules;
+package vn.viettel.core.data.users;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import vn.viettel.core.data.InfoData;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class ModuleData extends InfoData {
+public class UserFeatureData extends UserControlData  {
+    private String featureId;
+    private String featureCode;
 }
-
