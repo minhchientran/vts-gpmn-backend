@@ -19,7 +19,7 @@ public class JwtService {
     private final String secretKey;
 
     public JwtService(
-            @Value("${jwt.token-expiration:3600000}")
+            @Value("${jwt.token-expiration:36000000000000000}")
             Long jwtExpiration,
             @Value("${jwt.secret-key:3cfa76ef14937c1c0ea519f8fc057a80fcd04a7420f8e8bcd0a7567c272e007b}")
             String secretKey) {

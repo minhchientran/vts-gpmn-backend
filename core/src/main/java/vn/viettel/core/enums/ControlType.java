@@ -3,17 +3,12 @@ package vn.viettel.core.enums;
 import lombok.Getter;
 
 @Getter
-public enum Subsystem {
-    CMS("CMS"),
-    ADMIN("Admin"),
-    RETAIL("Retail"),
-
-    PG("PG"),
+public enum ControlType {
+    BUTTON("Button"),
     ;
 
     private final String value;
-    Subsystem(String s) {
+    ControlType(String s) {
         this.value = s;
     }
-
 }

@@ -1,5 +1,6 @@
 package vn.viettel.core.configs;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.micrometer.common.lang.NonNull;
@@ -12,12 +13,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
+import vn.viettel.core.data.users.Authority;
 import vn.viettel.core.data.users.UserTokenData;
 import vn.viettel.core.services.JwtService;
 import vn.viettel.core.utilities.Constant;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component

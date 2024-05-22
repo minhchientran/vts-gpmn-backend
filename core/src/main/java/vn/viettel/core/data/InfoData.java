@@ -2,11 +2,13 @@ package vn.viettel.core.data;
 
 import jakarta.persistence.MappedSuperclass;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
+@RequiredArgsConstructor
+@SuperBuilder
 @AllArgsConstructor
-@NoArgsConstructor
 @MappedSuperclass
 public class InfoData extends BaseData {
     private String code;

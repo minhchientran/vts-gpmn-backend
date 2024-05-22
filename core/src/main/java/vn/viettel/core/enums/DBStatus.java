@@ -1,5 +1,8 @@
 package vn.viettel.core.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum DBStatus {
     INACTIVE("Hết hiệu lực"),
     ACTIVE("Hoạt động"),
@@ -13,7 +16,4 @@ public enum DBStatus {
         this.value = s;
     }
 
-    public String getValue() {
-        return this.value;
-    }
 }

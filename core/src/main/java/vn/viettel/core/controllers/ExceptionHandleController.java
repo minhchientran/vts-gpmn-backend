@@ -12,6 +12,7 @@ public class ExceptionHandleController {
     @ResponseStatus
     @ResponseBody
     public Response handleException(Exception exception) {
+        exception.printStackTrace();
         return new Response(500, "System error");
     }
 
