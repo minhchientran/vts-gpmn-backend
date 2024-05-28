@@ -11,13 +11,18 @@ import vn.viettel.core.data.response.Response;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping(value = {"/healthy"})
-public class HealthyController extends BaseController {
+@RequestMapping(value = {"/health"})
+public class HealthController extends BaseController {
 
     private final EntityManager entityManager;
 
     @GetMapping
     public Response healthCheck() throws RuntimeException {
+        return Response.ok();
+    }
+
+    @GetMapping(value = {"/db"})
+    public Response healthCheckDB() throws RuntimeException {
         return Response.ok(entityManager.unwrap(Session.class).isConnected());
     }
 

@@ -1,6 +1,6 @@
 package vn.viettel.cms.repositories;
 
-import vn.viettel.cms.data.features.FeatureData;
+import vn.viettel.cms.data.features.FeatureModuleData;
 import vn.viettel.cms.data.features.FeatureQuery;
 import vn.viettel.cms.entities.Features;
 import org.springframework.data.domain.Page;
@@ -21,8 +21,7 @@ public interface FeatureRepository extends BaseRepository<Features> {
                    c.code
                 )
                 from Features f
-                left join FeatureControlMap fcm on fcm.featureId = f.id and fcm.status = vn.viettel.core.enums.DBStatus.ACTIVE
-                left join Controls c on c.id = fcm.controlId and c.status = vn.viettel.core.enums.DBStatus.ACTIVE
+                left join Controls c on c.featureId = f.id and c.status = vn.viettel.core.enums.DBStatus.ACTIVE
                 join ModuleFeatureMap mfm on mfm.featureId = f.id and mfm.status = vn.viettel.core.enums.DBStatus.ACTIVE
                 join Modules m on m.id = mfm.moduleId and m.status = vn.viettel.core.enums.DBStatus.ACTIVE
                 join SupplierModuleMap smm on smm.moduleId = m.id and smm.status = vn.viettel.core.enums.DBStatus.ACTIVE
@@ -38,6 +37,7 @@ public interface FeatureRepository extends BaseRepository<Features> {
     @Query(value = """
                 select f
                 from Features f
+                join Features pf on pf.id = f.parentFeatureId and pf.status = vn.viettel.core.enums.DBStatus.ACTIVE
                 where 1 = 1
                     and ( :#{#featureQuery.name} is null
                         or f.name like concat('%', :#{#featureQuery.name}, '%')
@@ -45,8 +45,48 @@ public interface FeatureRepository extends BaseRepository<Features> {
                         )
                     and ( :#{#featureQuery.description} is null or f.description like %:#{#featureQuery.description}% )
                     and ( :#{#featureQuery.parentId} is null or f.parentFeatureId = :#{#featureQuery.description} )
-                    and ( :#{#featureQuery.type} is null or f.type = :#{#featureQuery.type} )
+                    and ( :#{#featureQuery.featureType} is null or f.featureType = :#{#featureQuery.type} )
                     and ( :#{#featureQuery.status} is null or f.status = :#{#featureQuery.status} )
             """)
     Page<Features> getListFeature(FeatureQuery featureQuery, Pageable pageable);
+
+    @Query(value = """
+                select f
+                from Features f
+                join Features cf on f.id = cf.parentFeatureId
+                where 1 = 1
+                    and f.status = vn.viettel.core.enums.DBStatus.ACTIVE
+                    and cf.status = vn.viettel.core.enums.DBStatus.ACTIVE 
+            """)
+    List<Features> getListParentFeature();
+    @Query(value = """
+                select distinct new vn.viettel.cms.data.features.FeatureModuleData(
+                    f.code,
+                    f.name,
+                    pf.code,
+                    f.featureType,
+                    f.url,
+                    f.seq,
+                    mfm.moduleId,
+                    mfm.featureId,
+                    mfm.status
+                )
+                from Features f
+                left join Features pf on pf.id = f.parentFeatureId and pf.status = vn.viettel.core.enums.DBStatus.ACTIVE
+                left join ModuleFeatureMap mfm
+                    on mfm.featureId = f.id
+                    and mfm.moduleId = :moduleId
+                    and mfm.status = vn.viettel.core.enums.DBStatus.ACTIVE
+                where 1 = 1
+                    and f.status != vn.viettel.core.enums.DBStatus.INACTIVE
+                    and 1 = (
+                        case
+                        when (:isInModule = true and mfm.moduleId is not null) then 1
+                        when (:isInModule = false and mfm.moduleId is null) then 1
+                        else 0
+                        end
+                    )
+            """)
+    Page<FeatureModuleData> getFeatureInModule(String moduleId, Boolean isInModule, Pageable pageable);
+
 }

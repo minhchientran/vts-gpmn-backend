@@ -11,5 +11,5 @@ import vn.viettel.core.enums.DBStatus;
 public class ModuleAddFeatureData {
     private String moduleId;
     private String featureId;
-    private DBStatus dbStatus = DBStatus.ACTIVE;
+    private DBStatus status = DBStatus.ACTIVE;
 }

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import vn.viettel.core.entities.EntityWithInfo;
+import vn.viettel.core.enums.ControlAttribute;
 import vn.viettel.core.enums.ControlType;
 
 @Getter
@@ -17,8 +18,15 @@ import vn.viettel.core.enums.ControlType;
 public class Controls extends EntityWithInfo {
     @Column
     @Enumerated(EnumType.ORDINAL)
-    private ControlType type;
+    private ControlType controlType;
 
     @Column
     private String description;
+
+    @Column
+    private String featureId;
+
+    @Column
+    @Enumerated(EnumType.ORDINAL)
+    private ControlAttribute controlAttribute;
 }

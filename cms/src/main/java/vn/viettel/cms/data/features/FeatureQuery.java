@@ -6,7 +6,7 @@ public record FeatureQuery (
         String name,
         String description,
         String parentId,
-        Integer type,
+        Integer featureType,
         DBStatus status
 ) {
 }

@@ -32,11 +32,11 @@ public class UserService extends BaseService implements UserDetailsService {
         String username = loginIdentityStringSplit[1];
         UserTokenData userTokenData = switch (subsystem) {
             case CMS -> userRepository.findByUsernameAndSubsystem(username, subsystem);
-            case ADMIN, RETAIL, PG  -> null;
+            case ADMIN, RETAIL_BUY, RETAIL_SELL, CONSUMER, PG  -> null;
         };
         List<UserFeatureData> listUserFeatureData = switch (subsystem) {
             case CMS -> featuresRepository.getAdminFeatures(userTokenData.getUserId(), userTokenData.getSupplierId());
-            case ADMIN, RETAIL, PG -> null;
+            case ADMIN, RETAIL_BUY, RETAIL_SELL, CONSUMER, PG -> null;
         };
         assert userTokenData != null;
         userTokenData.setAuthoritiesFromListFeature(listUserFeatureData);

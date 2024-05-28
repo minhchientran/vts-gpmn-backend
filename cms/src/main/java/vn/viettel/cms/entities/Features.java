@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import vn.viettel.core.entities.EntityWithInfo;
+import vn.viettel.core.enums.FeatureType;
 import vn.viettel.core.enums.Subsystem;
 
 @Getter
@@ -19,14 +20,11 @@ public class Features extends EntityWithInfo {
     private String parentFeatureId;
 
     @Column
-    private Integer type;
+    @Enumerated(EnumType.ORDINAL)
+    private FeatureType featureType;
 
     @Column
     private Integer seq;
-
-    @Column
-    @Enumerated(EnumType.ORDINAL)
-    private Subsystem subsystem;
 
     @Column
     private String url;

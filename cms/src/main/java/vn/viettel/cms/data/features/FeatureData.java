@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import vn.viettel.core.data.InfoData;
+import vn.viettel.core.enums.FeatureType;
 
 @Data
 @SuperBuilder
@@ -15,7 +16,7 @@ import vn.viettel.core.data.InfoData;
 public class FeatureData extends InfoData {
     private String parentFeatureId;
     private String parentFeatureCode;
-    private String type;
+    private FeatureType featureType;
     private String description;
     private String url;
     private Integer seq;

@@ -3,8 +3,8 @@ package vn.viettel.core.enums;
 import lombok.Getter;
 
 @Getter
-public enum DBStatus {
-    INACTIVE("Hết hiệu lực"),
+public enum DBStatus implements BaseEnum {
+    INACTIVE("Ngưng hoạt động"),
     ACTIVE("Hoạt động"),
     DRAFT("Dự thảo"),
     PENDING("Tạm ngưng"),
@@ -16,4 +16,7 @@ public enum DBStatus {
         this.value = s;
     }
 
+    DBStatus(Integer i) {
+        this.value = String.valueOf(DBStatus.values()[i]);
+    }
 }

@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import vn.viettel.core.controllers.BaseController;
 import vn.viettel.core.data.response.Response;
+import vn.viettel.core.enums.ControlType;
+import vn.viettel.core.enums.DBStatus;
+import vn.viettel.core.enums.FeatureType;
+import vn.viettel.core.enums.Subsystem;
 
 @AllArgsConstructor
 @RestController
@@ -17,11 +21,21 @@ public class CommonController extends BaseController {
 
     @GetMapping(value = {"/status"})
     public Response getListStatus() {
-        return Response.ok(commonService.getListStatus());
+        return Response.ok(commonService.getListEnumInfo(DBStatus.class));
     }
 
-    @GetMapping(value = {"/subsystem"})
+    @GetMapping(value = {"/subsystems"})
     public Response getListSubsystem() {
-        return Response.ok(commonService.getListSubsystem());
+        return Response.ok(commonService.getListEnumInfo(Subsystem.class));
+    }
+
+    @GetMapping(value = {"/controlTypes"})
+    public Response getListControlType() {
+        return Response.ok(commonService.getListEnumInfo(ControlType.class));
+    }
+
+    @GetMapping(value = {"/featureTypes"})
+    public Response getListFeatureType() {
+        return Response.ok(commonService.getListEnumInfo(FeatureType.class));
     }
 }

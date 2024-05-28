@@ -106,3 +106,4 @@ fabric.properties
 /.idea/
 /auth-service/auth-service.iml
 /auth-service/target/classes/application.yaml
+/cms/target/classes/application.yaml
