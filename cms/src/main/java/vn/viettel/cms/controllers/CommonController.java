@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import vn.viettel.core.controllers.BaseController;
 import vn.viettel.core.data.response.Response;
-import vn.viettel.core.enums.ControlType;
+import vn.viettel.cms.enums.ControlType;
 import vn.viettel.core.enums.DBStatus;
-import vn.viettel.core.enums.FeatureType;
+import vn.viettel.cms.enums.FeatureType;
 import vn.viettel.core.enums.Subsystem;
 
 @AllArgsConstructor

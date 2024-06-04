@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import vn.viettel.core.data.InfoData;
-import vn.viettel.core.enums.FeatureType;
+import vn.viettel.cms.enums.FeatureType;
 
 @Data
 @SuperBuilder

@@ -1,4 +1,4 @@
-package vn.viettel.core.enums;
+package vn.viettel.cms.enums;
 
 public enum ControlAttribute {
     DISABLE("Disable"),

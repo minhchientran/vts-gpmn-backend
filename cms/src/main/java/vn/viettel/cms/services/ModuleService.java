@@ -30,7 +30,7 @@ public class ModuleService extends BaseService {
     public Page<ModuleData> getListModule(ModuleQuery moduleQuery, Pageable pageable) {
         Page<Modules> pageModule = moduleRepository.getListModule(moduleQuery, pageable);
         List<ModuleData> listModuleData = modelMapper.map(pageModule.getContent(),
-                new TypeToken<List<FeatureData>>() {}.getType());
+                new TypeToken<List<ModuleData>>() {}.getType());
         return new PageImpl<>(listModuleData, pageable, pageModule.getTotalElements());
     }
 

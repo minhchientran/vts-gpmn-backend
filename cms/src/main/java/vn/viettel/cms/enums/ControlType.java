@@ -1,6 +1,7 @@
-package vn.viettel.core.enums;
+package vn.viettel.cms.enums;
 
 import lombok.Getter;
+import vn.viettel.core.enums.BaseEnum;
 
 @Getter
 public enum ControlType implements BaseEnum {

@@ -5,8 +5,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import vn.viettel.core.data.InfoData;
-import vn.viettel.core.enums.ControlAttribute;
-import vn.viettel.core.enums.ControlType;
+import vn.viettel.cms.enums.ControlAttribute;
+import vn.viettel.cms.enums.ControlType;
 
 @Data
 @AllArgsConstructor

@@ -45,7 +45,7 @@ public interface FeatureRepository extends BaseRepository<Features> {
                         )
                     and ( :#{#featureQuery.description} is null or f.description like %:#{#featureQuery.description}% )
                     and ( :#{#featureQuery.parentId} is null or f.parentFeatureId = :#{#featureQuery.description} )
-                    and ( :#{#featureQuery.featureType} is null or f.featureType = :#{#featureQuery.type} )
+                    and ( :#{#featureQuery.featureType} is null or f.featureType = :#{#featureQuery.featureType()} )
                     and ( :#{#featureQuery.status} is null or f.status = :#{#featureQuery.status} )
             """)
     Page<Features> getListFeature(FeatureQuery featureQuery, Pageable pageable);
@@ -56,7 +56,7 @@ public interface FeatureRepository extends BaseRepository<Features> {
                 join Features cf on f.id = cf.parentFeatureId
                 where 1 = 1
                     and f.status = vn.viettel.core.enums.DBStatus.ACTIVE
-                    and cf.status = vn.viettel.core.enums.DBStatus.ACTIVE 
+                    and cf.status = vn.viettel.core.enums.DBStatus.ACTIVE
             """)
     List<Features> getListParentFeature();
     @Query(value = """

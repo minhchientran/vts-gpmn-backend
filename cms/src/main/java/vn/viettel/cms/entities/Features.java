@@ -6,8 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import vn.viettel.core.entities.EntityWithInfo;
-import vn.viettel.core.enums.FeatureType;
-import vn.viettel.core.enums.Subsystem;
+import vn.viettel.cms.enums.FeatureType;
 
 @Getter
 @Setter

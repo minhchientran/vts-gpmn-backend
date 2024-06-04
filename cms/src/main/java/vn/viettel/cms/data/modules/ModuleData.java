@@ -13,7 +13,7 @@ import vn.viettel.core.enums.Subsystem;
 @EqualsAndHashCode(callSuper = true)
 public class ModuleData extends InfoData {
     private String description;
-    private Subsystem subsystem;
-    private Integer totalFeatures;
+    private Subsystem subsystem = Subsystem.ADMIN;
+    private Integer totalFeatures = 1;
 }
 

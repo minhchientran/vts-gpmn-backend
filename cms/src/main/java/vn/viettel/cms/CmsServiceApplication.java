@@ -7,9 +7,9 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 @EnableMethodSecurity
 @SpringBootApplication(
         scanBasePackages = {
+                "vn.viettel.core.configs",
                 "vn.viettel.core.controllers",
                 "vn.viettel.core.data",
-                "vn.viettel.core.configs",
                 "vn.viettel.core.services",
                 "vn.viettel.cms.configs",
                 "vn.viettel.cms.controllers",
@@ -17,10 +17,10 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
                 "vn.viettel.cms.services",
         }
 )
-public class AuthServiceApplication {
+public class CmsServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(AuthServiceApplication.class, args);
+        SpringApplication.run(CmsServiceApplication.class, args);
     }
 
 }

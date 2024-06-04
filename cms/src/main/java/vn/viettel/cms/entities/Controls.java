@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import vn.viettel.core.entities.EntityWithInfo;
-import vn.viettel.core.enums.ControlAttribute;
-import vn.viettel.core.enums.ControlType;
+import vn.viettel.cms.enums.ControlAttribute;
+import vn.viettel.cms.enums.ControlType;
 
 @Getter
 @Setter

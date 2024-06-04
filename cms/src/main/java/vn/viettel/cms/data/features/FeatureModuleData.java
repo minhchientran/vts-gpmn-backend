@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import vn.viettel.cms.data.modules.ModuleAddFeatureData;
 import vn.viettel.core.enums.DBStatus;
-import vn.viettel.core.enums.FeatureType;
+import vn.viettel.cms.enums.FeatureType;
 
 @Data
 @AllArgsConstructor
