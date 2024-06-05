@@ -1,15 +1,21 @@
 package vn.viettel.cms.controllers;
 
 import jakarta.validation.constraints.NotEmpty;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import vn.viettel.cms.data.features.FeatureData;
 import vn.viettel.cms.data.features.FeatureQuery;
+import vn.viettel.cms.enums.FeatureType;
 import vn.viettel.cms.services.FeatureService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import vn.viettel.core.data.response.Response;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Validated
@@ -21,7 +27,9 @@ public class FeatureController {
     private final FeatureService featureService;
 
     @GetMapping
-    public Response getListFeature(FeatureQuery featureQuery, Pageable pageable) {
+    public Response getListFeature(
+            FeatureQuery featureQuery,
+            Pageable pageable) {
         return Response.ok(featureService.getListFeature(featureQuery, pageable));
     }
 

@@ -13,8 +13,8 @@ public interface ModuleRepository extends BaseRepository<Modules> {
                 from Modules m
                 where 1 = 1
                     and ( :#{#moduleQuery.name} is null
-                        or m.name like concat('%', :#{#moduleQuery.name}, '%')
-                        or m.code like concat('%', :#{#moduleQuery.name}, '%')
+                        or m.name like %:#{#moduleQuery.name}%
+                        or m.code like %:#{#moduleQuery.name}%
                         )
                     and ( :#{#moduleQuery.description} is null or m.description like %:#{#moduleQuery.description}% )
                     and ( :#{#moduleQuery.subsystem} is null or m.subsystem = :#{#moduleQuery.subsystem} )

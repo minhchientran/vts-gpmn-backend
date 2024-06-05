@@ -37,15 +37,15 @@ public interface FeatureRepository extends BaseRepository<Features> {
     @Query(value = """
                 select f
                 from Features f
-                join Features pf on pf.id = f.parentFeatureId and pf.status = vn.viettel.core.enums.DBStatus.ACTIVE
+                left join Features pf on pf.id = f.parentFeatureId and pf.status = vn.viettel.core.enums.DBStatus.ACTIVE
                 where 1 = 1
                     and ( :#{#featureQuery.name} is null
-                        or f.name like concat('%', :#{#featureQuery.name}, '%')
-                        or f.code like concat('%', :#{#featureQuery.name}, '%')
+                        or f.name like %:#{#featureQuery.name}%
+                        or f.code like %:#{#featureQuery.name}%
                         )
                     and ( :#{#featureQuery.description} is null or f.description like %:#{#featureQuery.description}% )
                     and ( :#{#featureQuery.parentId} is null or f.parentFeatureId = :#{#featureQuery.description} )
-                    and ( :#{#featureQuery.featureType} is null or f.featureType = :#{#featureQuery.featureType()} )
+                    and ( :#{#featureQuery.featureType} is null or f.featureType = :#{#featureQuery.featureType} )
                     and ( :#{#featureQuery.status} is null or f.status = :#{#featureQuery.status} )
             """)
     Page<Features> getListFeature(FeatureQuery featureQuery, Pageable pageable);

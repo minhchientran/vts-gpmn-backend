@@ -5,7 +5,7 @@ import vn.viettel.core.enums.BaseEnum;
 
 @Getter
 public enum FeatureType implements BaseEnum {
-    FROM("Form"),
+    FORM("Form"),
     MENU("Menu"),
     ;
 

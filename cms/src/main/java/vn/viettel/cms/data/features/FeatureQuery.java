@@ -9,12 +9,4 @@ public record FeatureQuery (
         String parentId,
         FeatureType featureType,
         DBStatus status
-) {
-    public FeatureQuery(String name,
-                        String description,
-                        String parentId,
-                        String featureType,
-                        DBStatus status ) {
-        this(name, description, parentId, FeatureType.valueOf(featureType), status);
-    }
-}
+) {}
