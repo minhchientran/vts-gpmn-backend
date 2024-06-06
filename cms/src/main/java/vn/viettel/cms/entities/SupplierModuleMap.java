@@ -28,4 +28,5 @@ public class SupplierModuleMap extends EntityWithAware {
     private Integer activeTime;
     @Column
     private Integer numberAccount;
+
 }

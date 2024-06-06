@@ -18,6 +18,7 @@ import vn.viettel.core.services.JwtService;
 @RequestMapping("/v1/auth")
 @RestController
 public class AuthenticationController extends BaseController {
+
     private final JwtService jwtService;
     private final AuthenticationService authenticationService;
 

@@ -14,13 +14,15 @@ import vn.viettel.core.entities.EntityWithAware;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "module_feature_map")
-public class ModuleFeatureMap extends EntityWithAware {
+@Table(name = "parameters")
+public class Parameters extends EntityWithAware {
 
     @Column
-    private String moduleId;
+    private String code;
 
     @Column
-    private String featureId;
+    private String value;
 
+    @Column
+    private String description;
 }

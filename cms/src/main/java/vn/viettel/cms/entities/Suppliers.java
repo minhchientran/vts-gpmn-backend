@@ -20,4 +20,5 @@ public class Suppliers extends EntityWithInfo {
     private String identityCode;
     @Column
     private String businessDomain;
+
 }

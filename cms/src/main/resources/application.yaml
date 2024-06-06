@@ -1,11 +1,7 @@
 spring:
   application:
     name: auth-service
-  datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/retail_platform
-    username: root
-    password: 123456a@A
+
 #server:
 #  servlet:
 #    context-path: /auth

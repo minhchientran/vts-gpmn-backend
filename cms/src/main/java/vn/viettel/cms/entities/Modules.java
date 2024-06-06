@@ -15,10 +15,12 @@ import vn.viettel.core.enums.Subsystem;
 @Entity
 @Table(name = "modules")
 public class Modules extends EntityWithInfo {
+
     @Column
     private String description;
 
     @Column
     @Enumerated(EnumType.ORDINAL)
     private Subsystem subsystem;
+
 }

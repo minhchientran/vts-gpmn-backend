@@ -22,4 +22,5 @@ public class UserSupplierMap extends EntityWithAware {
     @Column
     @Enumerated(EnumType.ORDINAL)
     private Subsystem subsystem;
+
 }

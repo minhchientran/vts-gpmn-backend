@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
+import vn.viettel.core.configs.tenant.TenantContext;
 import vn.viettel.core.data.users.Authority;
 import vn.viettel.core.data.users.UserTokenData;
 import vn.viettel.core.services.JwtService;
@@ -57,6 +58,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     );
                     authToken.setDetails(userTokenData);
                     SecurityContextHolder.getContext().setAuthentication(authToken);
+                    TenantContext.setUserInfo(userTokenData);
                 }
             }
             filterChain.doFilter(request, response);

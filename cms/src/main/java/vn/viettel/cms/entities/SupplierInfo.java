@@ -26,4 +26,5 @@ public class SupplierInfo extends EntityWithAware {
     private String logo;
     @Column
     private Float rating;
+
 }

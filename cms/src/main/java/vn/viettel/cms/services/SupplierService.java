@@ -8,7 +8,7 @@ import vn.viettel.cms.entities.Suppliers;
 import vn.viettel.cms.repositories.SupplierDatabaseRepository;
 import vn.viettel.cms.repositories.SupplierInfoRepository;
 import vn.viettel.cms.repositories.SupplierModuleMapRepository;
-import vn.viettel.cms.repositories.SuppliersRepository;
+import vn.viettel.cms.repositories.SupplierRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +18,7 @@ import vn.viettel.core.services.BaseService;
 @AllArgsConstructor
 public class SupplierService extends BaseService {
 
-    private final SuppliersRepository suppliersRepository;
+    private final SupplierRepository supplierRepository;
     private final SupplierInfoRepository supplierInfoRepository;
     private final SupplierDatabaseRepository supplierDatabaseRepository;
     private final SupplierModuleMapRepository supplierModuleMapRepository;
@@ -26,7 +26,7 @@ public class SupplierService extends BaseService {
     @Transactional
     public void createSupplier(SupplierData supplierData) {
         Suppliers suppliers = modelMapper.map(supplierData, Suppliers.class);
-        suppliersRepository.save(suppliers);
+        supplierRepository.save(suppliers);
         SupplierInfo supplierInfo = modelMapper.map(supplierData, SupplierInfo.class);
         supplierInfoRepository.save(supplierInfo);
     }

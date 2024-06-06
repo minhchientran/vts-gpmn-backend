@@ -68,7 +68,7 @@ public interface FeatureRepository extends BaseRepository<Features> {
                     f.url,
                     f.seq,
                     mfm.moduleId,
-                    mfm.featureId,
+                    f.id,
                     mfm.status
                 )
                 from Features f

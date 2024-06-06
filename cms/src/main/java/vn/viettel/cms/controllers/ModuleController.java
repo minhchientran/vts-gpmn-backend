@@ -65,5 +65,4 @@ public class ModuleController extends BaseController {
         moduleService.updateFeatureInModule(listModuleAddFeatureData);
         return Response.ok();
     }
-
 }

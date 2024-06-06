@@ -29,4 +29,5 @@ public class Controls extends EntityWithInfo {
     @Column
     @Enumerated(EnumType.ORDINAL)
     private ControlAttribute controlAttribute;
+
 }

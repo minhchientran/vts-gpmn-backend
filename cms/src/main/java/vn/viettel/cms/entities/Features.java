@@ -30,4 +30,5 @@ public class Features extends EntityWithInfo {
 
     @Column
     private String description;
+
 }
