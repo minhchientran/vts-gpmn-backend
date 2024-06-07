@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotEmpty;
 import org.springframework.data.domain.Pageable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import vn.viettel.cms.data.features.FeatureQuery;
 import vn.viettel.cms.data.modules.ModuleAddFeatureData;
 import vn.viettel.cms.data.modules.ModuleData;
 import vn.viettel.cms.data.modules.ModuleQuery;
@@ -47,9 +48,10 @@ public class ModuleController extends BaseController {
     public Response getFeaturesInModule(
             @RequestParam @NotEmpty String moduleId,
             @RequestParam Boolean isInModule,
+            FeatureQuery featureQuery,
             Pageable pageable
     ) {
-        return Response.ok(featureService.getFeaturesModule(moduleId, isInModule, pageable));
+        return Response.ok(featureService.getFeaturesModule(moduleId, isInModule, featureQuery, pageable));
     }
 
     @PostMapping(value = {"/addFeatures"})

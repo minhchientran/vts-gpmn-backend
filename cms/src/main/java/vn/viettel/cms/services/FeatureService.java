@@ -54,8 +54,8 @@ public class FeatureService extends BaseService {
         }
     }
 
-    public Page<FeatureModuleData> getFeaturesModule(String moduleId, Boolean isInModule, Pageable pageable) {
-        return featuresRepository.getFeatureInModule(moduleId, isInModule, pageable);
+    public Page<FeatureModuleData> getFeaturesModule(String moduleId, Boolean isInModule, FeatureQuery featureQuery, Pageable pageable) {
+        return featuresRepository.getFeatureInModule(moduleId, isInModule, featureQuery, pageable);
     }
 
 }

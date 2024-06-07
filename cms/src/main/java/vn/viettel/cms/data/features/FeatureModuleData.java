@@ -13,8 +13,8 @@ import vn.viettel.cms.enums.FeatureType;
 public class FeatureModuleData extends ModuleAddFeatureData {
 
     public FeatureModuleData(
-            String featureCode,
-            String featureName,
+            String code,
+            String name,
             String parentFeatureCode,
             FeatureType featureType,
             String url,
@@ -23,8 +23,8 @@ public class FeatureModuleData extends ModuleAddFeatureData {
             String featureId,
             DBStatus status
     ) {
-        this.featureCode = featureCode;
-        this.featureName = featureName;
+        this.code = code;
+        this.name = name;
         this.parentFeatureCode = parentFeatureCode;
         this.featureType = featureType;
         this.url = url;
@@ -34,8 +34,8 @@ public class FeatureModuleData extends ModuleAddFeatureData {
         this.setStatus(status);
     }
 
-    private String featureCode;
-    private String featureName;
+    private String code;
+    private String name;
     private String parentFeatureCode;
     private FeatureType featureType;
     private String url;
