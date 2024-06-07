@@ -3,6 +3,7 @@ package vn.viettel.cms.services;
 import lombok.AllArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import vn.viettel.cms.data.OtpData;
 import vn.viettel.cms.entities.Parameters;
 import vn.viettel.cms.repositories.ParameterRepository;
 import vn.viettel.core.utilities.Constant;
@@ -21,7 +22,7 @@ public class OTPService {
 
     private RedisTemplate<String, Object> redisTemplate;
 
-    public String generateOTP(String prefix, String objectId) {
+    public OtpData generateOTP(String prefix, String objectId) {
         long otpExpiredTime = 300;
         int otpLength = 5;
         String otp = "12345";
@@ -44,7 +45,7 @@ public class OTPService {
             otp = randomOTP(otpLength);
         }
         redisTemplate.opsForValue().set(prefix + Constant.SEPARATE + objectId, otp, otpExpiredTime, TimeUnit.SECONDS);
-        return otp;
+        return new OtpData(otp, otpExpiredTime);
     }
 
     public static String randomOTP(Integer OTPLength) {
