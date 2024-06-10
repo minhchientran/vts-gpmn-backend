@@ -29,9 +29,8 @@ public class ControlController extends BaseController {
 
     @PostMapping
     public Response createControls(
-            @RequestParam @NotNull String featureId,
             @RequestBody List<ControlData> listControlData) {
-        controlService.createControls(featureId, listControlData);
+        controlService.createControls(listControlData);
         return Response.ok();
     }
 

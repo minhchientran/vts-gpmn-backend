@@ -29,11 +29,10 @@ public class ControlService extends BaseService {
         return new PageImpl<>(listControlData, pageable, pageControl.getTotalElements());
     }
     @Transactional
-    public void createControls(String featureId, List<ControlData> listControlData) {
+    public void createControls(List<ControlData> listControlData) {
         List<Controls> listControl = modelMapper.map(listControlData, new TypeToken<List<Controls>>() {}.getType());
         listControl.forEach(control -> {
             control.setId(null);
-            control.setFeatureId(featureId);
         });
         controlRepository.saveAll(listControl);
     }

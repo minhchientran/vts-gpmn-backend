@@ -13,6 +13,7 @@ import vn.viettel.cms.enums.ControlType;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class ControlData extends InfoData {
+    private String featureId;
     private ControlType controlType;
     private String description;
     private ControlAttribute controlAttribute;
