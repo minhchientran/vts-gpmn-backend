@@ -36,9 +36,10 @@ public class ModuleService extends BaseService {
 
     @Transactional
     public void createModules(List<ModuleData> listModuleData) {
-        List<Modules> listModule = modelMapper.map(listModuleData, new TypeToken<List<Modules>>() {}.getType());
-        listModule.forEach(module -> module.setId(null));
-        moduleRepository.saveAll(listModule);
+        listModuleData = listModuleData
+                .stream()
+                .filter(moduleData -> moduleData.getId() == null).collect(Collectors.toList());
+        this.saveModules(listModuleData);
     }
 
     @Transactional
@@ -46,6 +47,10 @@ public class ModuleService extends BaseService {
         listModuleData = listModuleData
                 .stream()
                 .filter(moduleData -> moduleData.getId() != null).collect(Collectors.toList());
+        this.saveModules(listModuleData);
+    }
+
+    public void saveModules(List<ModuleData> listModuleData) {
         if (!listModuleData.isEmpty()) {
             List<Modules> listModule = modelMapper.map(listModuleData, new TypeToken<List<Modules>>() {}.getType());
             moduleRepository.saveAll(listModule);

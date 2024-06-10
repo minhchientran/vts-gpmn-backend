@@ -38,9 +38,10 @@ public class FeatureService extends BaseService {
 
     @Transactional
     public void createFeatures(List<FeatureData> listFeatureData) {
-        List<Features> listFeature = modelMapper.map(listFeatureData, new TypeToken<List<Features>>() {}.getType());
-        listFeature.forEach(feature -> feature.setId(null));
-        featuresRepository.saveAll(listFeature);
+        listFeatureData = listFeatureData
+                .stream()
+                .filter(featureData -> featureData.getId() == null).collect(Collectors.toList());
+        this.saveFeatures(listFeatureData);
     }
 
     @Transactional
@@ -48,6 +49,10 @@ public class FeatureService extends BaseService {
         listFeatureData = listFeatureData
                 .stream()
                 .filter(featureData -> featureData.getId() != null).collect(Collectors.toList());
+        this.saveFeatures(listFeatureData);
+    }
+
+    public void saveFeatures(List<FeatureData> listFeatureData) {
         if (!listFeatureData.isEmpty()) {
             List<Features> listFeature = modelMapper.map(listFeatureData, new TypeToken<List<Features>>() {}.getType());
             featuresRepository.saveAll(listFeature);

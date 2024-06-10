@@ -30,20 +30,20 @@ public class ControlService extends BaseService {
     }
     @Transactional
     public void createControls(List<ControlData> listControlData) {
-        List<Controls> listControl = modelMapper.map(listControlData, new TypeToken<List<Controls>>() {}.getType());
-        listControl.forEach(control -> {
-            control.setId(null);
-        });
-        controlRepository.saveAll(listControl);
+        listControlData = listControlData.stream().filter(controlData -> controlData.getId() == null).collect(Collectors.toList());
+        this.saveControls(listControlData);
     }
 
     @Transactional
     public void updateControls(List<ControlData> listControlData) {
-        listControlData = listControlData.stream().filter(controlData -> controlData.getId() == null).collect(Collectors.toList());
+        listControlData = listControlData.stream().filter(controlData -> controlData.getId() != null).collect(Collectors.toList());
+        this.saveControls(listControlData);
+    }
+
+    public void saveControls(List<ControlData> listControlData) {
         if (!listControlData.isEmpty()) {
             List<Controls> listControl = modelMapper.map(listControlData, new TypeToken<List<Controls>>() {}.getType());
             controlRepository.saveAll(listControl);
         }
     }
-
 }
