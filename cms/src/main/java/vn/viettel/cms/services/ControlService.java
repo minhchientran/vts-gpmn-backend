@@ -25,7 +25,7 @@ public class ControlService extends BaseService {
     public Page<ControlData> getListControlByFeatureId(String featureId, Pageable pageable) {
         Page<Controls> pageControl = controlRepository.getAllByFeatureId(featureId, pageable);
         List<ControlData> listControlData = modelMapper.map(pageControl.getContent(),
-                new TypeToken<List<FeatureData>>() {}.getType());
+                new TypeToken<List<ControlData>>() {}.getType());
         return new PageImpl<>(listControlData, pageable, pageControl.getTotalElements());
     }
     @Transactional
