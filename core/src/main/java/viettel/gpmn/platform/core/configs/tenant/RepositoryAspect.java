@@ -25,9 +25,12 @@ public class RepositoryAspect {
     public Object pointCutHandle(ProceedingJoinPoint joinPoint) throws Throwable {
         Session session = entityManager.unwrap(Session.class);
         String supplierId = TenantContext.getSupplierId();
+        // TODO filter supplier
         if (supplierId != null) {
-            Filter filter = session.enableFilter("supplierFilter");
-            filter.setParameter("supplierId", supplierId);
+            try {
+                Filter filter = session.enableFilter("supplierFilter");
+                filter.setParameter("supplierId", supplierId);
+            } catch (Exception ignored) {}
         }
         Object result = joinPoint.proceed();
         session.disableFilter("supplierFilter");

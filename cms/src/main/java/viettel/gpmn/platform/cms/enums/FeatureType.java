@@ -5,8 +5,8 @@ import viettel.gpmn.platform.core.enums.BaseEnum;
 
 @Getter
 public enum FeatureType implements BaseEnum {
-    FORM("Form"),
     MENU("Menu"),
+    FORM("Form"),
     ;
 
     private final String value;

@@ -14,15 +14,20 @@ public class TenantContext {
     }
 
     public static UserTokenData getUserInfo() {
-        return (UserTokenData) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        try {
+            return (UserTokenData) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        }
+        catch (Exception ignored) {
+            return null;
+        }
     }
 
     public static String getSupplierId() {
-        return getUserInfo() == null ? getUserInfo().getSupplierId() : null;
+        return getUserInfo() == null ? null : getUserInfo().getSupplierId();
     }
 
     public static String getSupplierCode() {
-        return getUserInfo() == null ? getUserInfo().getSupplierCode() : null;
+        return getUserInfo() == null ? null : getUserInfo().getSupplierCode();
     }
 
     public static void clear() {
