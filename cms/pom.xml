@@ -8,24 +8,19 @@
         <version>3.2.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.example</groupId>
+    <groupId>viettel.gpmn.platform</groupId>
     <artifactId>cms</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>auth-service</name>
-    <description>auth-service</description>
+    <name>cms-service</name>
+    <description>cms-service</description>
     <properties>
         <java.version>17</java.version>
     </properties>
     <dependencies>
         <dependency>
-            <groupId>vn.viettel</groupId>
+            <groupId>viettel.gpmn.platform</groupId>
             <artifactId>core</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.gavlyukovskiy</groupId>
-            <artifactId>datasource-proxy-spring-boot-starter</artifactId>
-            <version>1.9.1</version>
         </dependency>
     </dependencies>
 
