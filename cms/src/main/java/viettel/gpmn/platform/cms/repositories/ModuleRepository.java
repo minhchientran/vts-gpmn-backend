@@ -22,7 +22,6 @@ public interface ModuleRepository extends BaseRepository<Modules> {
                         or m.name like %:#{#moduleQuery.name}%
                         or m.code like %:#{#moduleQuery.name}%
                         )
-                    and ( :#{#moduleQuery.description} is null or m.description like %:#{#moduleQuery.description}% )
                     and ( :#{#moduleQuery.subsystem} is null or m.subsystem = :#{#moduleQuery.subsystem} )
                     and ( :#{#moduleQuery.status} is null or m.status = :#{#moduleQuery.status} )
             """)
