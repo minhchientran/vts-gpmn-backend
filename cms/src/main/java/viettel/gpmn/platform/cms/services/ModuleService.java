@@ -14,6 +14,7 @@ import viettel.gpmn.platform.cms.data.modules.ModuleData;
 import viettel.gpmn.platform.cms.entities.ModuleFeatureMap;
 import viettel.gpmn.platform.cms.entities.Modules;
 import viettel.gpmn.platform.cms.repositories.ModuleRepository;
+import viettel.gpmn.platform.core.data.InfoData;
 import viettel.gpmn.platform.core.enums.DBStatus;
 import viettel.gpmn.platform.core.services.GenericSaveService;
 
@@ -30,6 +31,11 @@ public class ModuleService extends GenericSaveService<Modules, ModuleData, Modul
         List<ModuleData> listModuleData = modelMapper.map(pageModule.getContent(),
                 new TypeToken<List<ModuleData>>() {}.getType());
         return new PageImpl<>(listModuleData, pageable, pageModule.getTotalElements());
+    }
+
+    public List<InfoData> getListAllModules() {
+        List<Modules> listAllModules = this.repository.findAll();
+        return modelMapper.map(listAllModules, new TypeToken<List<InfoData>>() {}.getType());
     }
 
     public ModuleData getModuleDetail(String moduleId) {

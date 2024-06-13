@@ -28,6 +28,11 @@ public class SupplierController extends GenericSaveController<Suppliers, Supplie
         return Response.ok(this.service.getSupplierDetail(supplierId));
     }
 
+    @GetMapping(value = {"/modules"})
+    public Response getListSupplierModules(@RequestParam String supplierId) {
+        return Response.ok(this.service.getListSupplierModules(supplierId));
+    }
+
     @PostMapping(value = {"/modules"})
     public Response createSupplierModules(List<SupplierModuleData> listSupplierModuleData) {
         this.service.createSupplierModules(listSupplierModuleData);

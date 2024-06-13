@@ -30,6 +30,11 @@ public class ModuleController extends GenericSaveController<Modules, ModuleData,
         return Response.ok(this.service.getListModules(moduleQuery, pageable));
     }
 
+    @GetMapping(value = {"/all"})
+    public Response getListAllModules() {
+        return Response.ok(this.service.getListAllModules());
+    }
+
     @GetMapping(value = {"/{id}"})
     public Response getModuleDetail(
             @PathVariable(value = "id") String moduleId

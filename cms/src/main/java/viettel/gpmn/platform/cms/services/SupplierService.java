@@ -29,24 +29,29 @@ public class SupplierService extends GenericSaveService<Suppliers, SupplierData,
     private SupplierModuleMapRepository supplierModuleMapRepository;
 
     public Page<SupplierListData> getListSuppliers(SupplierQuery supplierQuery, Pageable pageable) {
-        Page<Suppliers> pageSupplier = repository.getListSupplier(supplierQuery, pageable);
-        List<SupplierListData> listSupplierListData = modelMapper.map(pageSupplier.getContent(),
+        Page<Suppliers> pageSupplier = this.repository.getListSupplier(supplierQuery, pageable);
+        List<SupplierListData> listSupplierListData = this.modelMapper.map(pageSupplier.getContent(),
                 new TypeToken<List<SupplierListData>>() {}.getType());
         return new PageImpl<>(listSupplierListData, pageable, pageSupplier.getTotalElements());
     }
 
     public SupplierData getSupplierDetail(String supplierId) {
-        Suppliers suppliers = repository.findById(supplierId).orElseThrow();
+        Suppliers suppliers = this.repository.findById(supplierId).orElseThrow();
         // TODO image
-        return modelMapper.map(suppliers, SupplierData.class);
+        return this.modelMapper.map(suppliers, SupplierData.class);
     }
 
     @Override
     public void save(List<SupplierData> listSupplierData) {
         if (!listSupplierData.isEmpty()) {
-            List<Suppliers> listSuppliers = modelMapper.map(listSupplierData, new TypeToken<List<Suppliers>>() {}.getType());
+            List<Suppliers> listSuppliers = this.modelMapper.map(listSupplierData, new TypeToken<List<Suppliers>>() {}.getType());
             this.repository.saveAll(listSuppliers);
         }
+    }
+
+    public List<SupplierModuleData> getListSupplierModules(String supplierId) {
+        List<SupplierModuleMap> listSupplierModuleMap = supplierModuleMapRepository.findAllBySupplierId(supplierId);
+        return this.modelMapper.map(listSupplierModuleMap, new TypeToken<List<SupplierModuleData>>() {}.getType());
     }
 
     @Transactional
@@ -67,7 +72,7 @@ public class SupplierService extends GenericSaveService<Suppliers, SupplierData,
 
     public void saveSupplierModules(List<SupplierModuleData> listSupplierModulesData) {
         if (!listSupplierModulesData.isEmpty()) {
-            List<SupplierModuleMap> listSupplierModuleMap = modelMapper.map(listSupplierModulesData,
+            List<SupplierModuleMap> listSupplierModuleMap = this.modelMapper.map(listSupplierModulesData,
                     new TypeToken<List<SupplierModuleMap>>() {}.getType());
             supplierModuleMapRepository.saveAll(listSupplierModuleMap);
         }
