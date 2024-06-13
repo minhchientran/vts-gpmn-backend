@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import viettel.gpmn.platform.core.entities.EntityWithInfo;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -26,6 +28,10 @@ public class Suppliers extends EntityWithInfo {
     private String email;
     @Column
     private String logo;
+    @Column
+    private LocalDateTime activeDate;
+    @Column
+    private LocalDateTime endDate;
     @Column
     private Float rating;
 }

@@ -34,13 +34,13 @@ public class SupplierController extends GenericSaveController<Suppliers, Supplie
     }
 
     @PostMapping(value = {"/modules"})
-    public Response createSupplierModules(List<SupplierModuleData> listSupplierModuleData) {
+    public Response createSupplierModules(@RequestBody List<SupplierModuleData> listSupplierModuleData) {
         this.service.createSupplierModules(listSupplierModuleData);
         return Response.ok();
     }
 
     @PutMapping(value = {"/modules"})
-    public Response updateSupplierModules(List<SupplierModuleData> listSupplierModuleData) {
+    public Response updateSupplierModules(@RequestBody List<SupplierModuleData> listSupplierModuleData) {
         this.service.updateSupplierModules(listSupplierModuleData);
         return Response.ok();
     }

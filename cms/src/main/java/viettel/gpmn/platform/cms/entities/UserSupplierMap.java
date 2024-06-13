@@ -1,15 +1,13 @@
 package viettel.gpmn.platform.cms.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import viettel.gpmn.platform.core.entities.EntityWithAware;
 import viettel.gpmn.platform.core.enums.Subsystem;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity

@@ -20,13 +20,13 @@ public class GenericSaveController<
     protected S service;
 
     @PostMapping
-    public Response createControls(@RequestBody List<K> listData) {
+    public Response create(@RequestBody List<K> listData) {
         service.create(listData);
         return Response.ok();
     }
 
     @PutMapping
-    public Response updateControls(@RequestBody List<K> listData) {
+    public Response update(@RequestBody List<K> listData) {
         service.update(listData);
         return Response.ok();
     }

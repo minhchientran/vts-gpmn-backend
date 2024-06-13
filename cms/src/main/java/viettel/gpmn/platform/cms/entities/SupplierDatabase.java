@@ -8,6 +8,7 @@ import viettel.gpmn.platform.core.entities.EntityWithAware;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
