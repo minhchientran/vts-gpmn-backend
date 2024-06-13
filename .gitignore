@@ -104,7 +104,8 @@ fabric.properties
 .idea/caches/build_file_checksums.ser
 
 /.idea/
-/auth-service/auth-service.iml
-/auth-service/target/classes/application.yaml
-/cms/target/classes/application.yaml
 !/*/target/
+/cms/target/classes/application.yaml
+/retail/target/classes/application.yaml
+/cms/target/classes/application-dev.yaml
+/retail/target/classes/application-dev.yaml

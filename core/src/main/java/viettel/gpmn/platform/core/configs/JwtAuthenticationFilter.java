@@ -6,11 +6,13 @@ import io.micrometer.common.lang.NonNull;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
+import viettel.gpmn.platform.core.configs.tenant.MultiTenantManager;
 import viettel.gpmn.platform.core.configs.tenant.TenantContext;
 import viettel.gpmn.platform.core.data.users.UserTokenData;
 import viettel.gpmn.platform.core.services.JwtService;
@@ -19,19 +21,13 @@ import viettel.gpmn.platform.core.utilities.Constant;
 import java.util.HashMap;
 
 @Component
+@AllArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
     private final ObjectMapper objectMapper;
     private final JwtService jwtService;
     private final HandlerExceptionResolver handlerExceptionResolver;
-    public JwtAuthenticationFilter(
-            ObjectMapper objectMapper,
-            JwtService jwtService,
-            HandlerExceptionResolver handlerExceptionResolver
-    ) {
-        this.objectMapper = objectMapper;
-        this.jwtService = jwtService;
-        this.handlerExceptionResolver = handlerExceptionResolver;
-    }
+    private final MultiTenantManager multiTenantManager;
 
     @Override
     protected void doFilterInternal(
@@ -53,6 +49,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     authToken.setDetails(userTokenData);
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                     TenantContext.setUserInfo(userTokenData);
+                    multiTenantManager.setCurrentTenant(userTokenData.getSupplierId());
                 }
             }
             filterChain.doFilter(request, response);

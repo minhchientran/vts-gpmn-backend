@@ -9,7 +9,6 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
 import javax.sql.DataSource;
-import java.sql.SQLException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -32,7 +31,8 @@ public class MultiTenantManager {
             @Value("${spring.datasource.url}") String defaultUrl,
             @Value("${spring.datasource.username}") String defaultUsername,
             @Value("${spring.datasource.password}") String defaultPassword,
-            DataSourceProperties properties) {
+            DataSourceProperties properties
+    ) {
         this.defaultDriver = defaultDriver;
         this.defaultUrl = defaultUrl;
         this.defaultUsername = defaultUsername;
@@ -77,4 +77,5 @@ public class MultiTenantManager {
         defaultDataSource.setPassword(defaultPassword);
         return defaultDataSource;
     }
+
 }

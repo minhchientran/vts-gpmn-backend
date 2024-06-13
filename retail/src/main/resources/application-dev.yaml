@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://10.230.191.178:9306/retail_platform
+    url: jdbc:mariadb://10.30.174.212:8771/retail_platform
     username: root
     password: 123456a@A
   jpa:
@@ -12,12 +12,5 @@ spring:
       host: 10.230.191.178
       port: 9379
 
-#logging:
-#  level:
-#    net:
-#      ttddyy:
-#        dsproxy:
-#          listener: debug
-
 server:
-  port: 9001
+  port: 8101

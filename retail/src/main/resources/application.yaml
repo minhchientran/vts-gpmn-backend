@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: retail-service
+
+server:
+  servlet:
+    context-path: /retail
