@@ -11,6 +11,9 @@ spring:
     redis:
       host: 10.230.191.178
       port: 9379
+  kafka:
+    bootstrap-servers: 10.230.191.178:9092
+
 
 #logging:
 #  level:
