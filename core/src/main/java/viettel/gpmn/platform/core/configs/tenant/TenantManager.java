@@ -1,6 +1,5 @@
 package viettel.gpmn.platform.core.configs.tenant;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -13,31 +12,19 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Configuration
-public class MultiTenantManager {
+public class TenantManager {
 
-    private final String defaultDriver;
-    private final String defaultUrl;
-    private final String defaultUsername;
-    private final String defaultPassword;
+    private final DataSourceProperties dataSourceProperties;
 
     private final ThreadLocal<String> currentTenant = new ThreadLocal<>();
     private final Map<Object, Object> tenantDataSources = new ConcurrentHashMap<>();
-    private final DataSourceProperties properties;
 
     private AbstractRoutingDataSource multiTenantDataSource;
 
-    public MultiTenantManager(
-            @Value("${spring.datasource.driver-class-name}") String defaultDriver,
-            @Value("${spring.datasource.url}") String defaultUrl,
-            @Value("${spring.datasource.username}") String defaultUsername,
-            @Value("${spring.datasource.password}") String defaultPassword,
-            DataSourceProperties properties
+    public TenantManager(
+            DataSourceProperties dataSourceProperties
     ) {
-        this.defaultDriver = defaultDriver;
-        this.defaultUrl = defaultUrl;
-        this.defaultUsername = defaultUsername;
-        this.defaultPassword = defaultPassword;
-        this.properties = properties;
+        this.dataSourceProperties = dataSourceProperties;
     }
 
     @Bean
@@ -56,7 +43,7 @@ public class MultiTenantManager {
 
     public void addTenant(String tenantId, String url, String username, String password) {
         DataSource dataSource = DataSourceBuilder.create()
-                .driverClassName(properties.getDriverClassName())
+                .driverClassName(dataSourceProperties.getDriverClassName())
                 .url(url)
                 .username(username)
                 .password(password)
@@ -71,10 +58,10 @@ public class MultiTenantManager {
 
     private DriverManagerDataSource defaultDataSource() {
         DriverManagerDataSource defaultDataSource = new DriverManagerDataSource();
-        defaultDataSource.setDriverClassName(defaultDriver);
-        defaultDataSource.setUrl(defaultUrl);
-        defaultDataSource.setUsername(defaultUsername);
-        defaultDataSource.setPassword(defaultPassword);
+        defaultDataSource.setDriverClassName(dataSourceProperties.getDriverClassName());
+        defaultDataSource.setUrl(dataSourceProperties.getUrl());
+        defaultDataSource.setUsername(dataSourceProperties.getUsername());
+        defaultDataSource.setPassword(dataSourceProperties.getPassword());
         return defaultDataSource;
     }
 

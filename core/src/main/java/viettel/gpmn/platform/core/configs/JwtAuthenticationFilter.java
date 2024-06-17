@@ -12,7 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
-import viettel.gpmn.platform.core.configs.tenant.MultiTenantManager;
+import viettel.gpmn.platform.core.configs.tenant.TenantManager;
 import viettel.gpmn.platform.core.configs.tenant.TenantContext;
 import viettel.gpmn.platform.core.data.users.UserTokenData;
 import viettel.gpmn.platform.core.services.JwtService;
@@ -27,7 +27,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final ObjectMapper objectMapper;
     private final JwtService jwtService;
     private final HandlerExceptionResolver handlerExceptionResolver;
-    private final MultiTenantManager multiTenantManager;
+    private final TenantManager tenantManager;
 
     @Override
     protected void doFilterInternal(
@@ -49,7 +49,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     authToken.setDetails(userTokenData);
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                     TenantContext.setUserInfo(userTokenData);
-                    multiTenantManager.setCurrentTenant(userTokenData.getSupplierId());
+                    tenantManager.setCurrentTenant(userTokenData.getSupplierId());
                 }
             }
             filterChain.doFilter(request, response);

@@ -12,7 +12,7 @@ import viettel.gpmn.platform.core.entities.EntityWithAware;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "supplier_database_info")
+@Table(name = "supplier_database")
 public class SupplierDatabase extends EntityWithAware {
     @Column
     private String url;
