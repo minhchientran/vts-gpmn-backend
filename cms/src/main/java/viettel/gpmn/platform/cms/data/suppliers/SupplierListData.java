@@ -15,8 +15,6 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 public class SupplierListData extends InfoData {
     private String companyCode;
-//    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime activeDate;
-//    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endDate;
 }
