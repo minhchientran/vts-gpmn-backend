@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,4 +17,5 @@ public class SupplierData extends SupplierListData {
     private String businessDomain;
     private String logoFileName;
     private String logoFileData;
+    private List<SupplierModuleData> listSupplierModule;
 }
