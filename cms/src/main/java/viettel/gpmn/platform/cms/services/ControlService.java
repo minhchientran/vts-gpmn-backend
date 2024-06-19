@@ -6,31 +6,70 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import viettel.gpmn.platform.cms.data.controls.ControlData;
+import viettel.gpmn.platform.cms.data.controls.SupplierControlData;
+import viettel.gpmn.platform.cms.entities.SupplierControlMap;
+import viettel.gpmn.platform.cms.entities.Suppliers;
 import viettel.gpmn.platform.cms.repositories.ControlRepository;
 import viettel.gpmn.platform.cms.data.controls.ControlQuery;
 import viettel.gpmn.platform.cms.entities.Controls;
+import viettel.gpmn.platform.cms.repositories.SupplierControlMapRepository;
+import viettel.gpmn.platform.cms.repositories.SupplierRepository;
 import viettel.gpmn.platform.core.services.GenericSaveService;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class ControlService extends GenericSaveService<Controls, ControlData, ControlRepository> {
 
+    private SupplierRepository supplierRepository;
+    private SupplierControlMapRepository supplierControlMapRepository;
+
     public Page<ControlData> getListControlsByFeatureId(String featureId, ControlQuery controlQuery, Pageable pageable) {
-        Page<Controls> pageControl = repository.getAllByFeatureId(featureId, controlQuery, pageable);
-        List<ControlData> listControlData = modelMapper.map(pageControl.getContent(),
+        Page<Controls> pageControl = this.repository.getAllByFeatureId(featureId, controlQuery, pageable);
+        List<ControlData> listControlData = this.modelMapper.map(pageControl.getContent(),
                 new TypeToken<List<ControlData>>() {}.getType());
         return new PageImpl<>(listControlData, pageable, pageControl.getTotalElements());
     }
 
-    @Override
-    public void save(List<ControlData> listControlData) {
-        if (!listControlData.isEmpty()) {
-            List<Controls> listControl = modelMapper.map(listControlData, new TypeToken<List<Controls>>() {}.getType());
-            repository.saveAll(listControl);
-        }
+    public List<Controls> getListAllControl() {
+        return this.repository.findAll();
     }
 
+    @Override
+    @Transactional
+    public void create(List<ControlData> listData) {
+        listData = listData
+                .stream()
+                .filter(moduleData -> moduleData.getId() == null).collect(Collectors.toList());
+
+        List<SupplierControlMap> listSupplierControlMap = new ArrayList<>();
+        List<Suppliers> listSupplier = supplierRepository.findAll();
+        this.save(listData).forEach(control ->
+                listSupplier.forEach(supplier -> {
+                    SupplierControlMap supplierControlMap = new SupplierControlMap();
+                    supplierControlMap.setSupplierId(supplier.getId());
+                    supplierControlMap.setControlId(control.getId());
+                    listSupplierControlMap.add(supplierControlMap);
+                })
+        );
+        supplierControlMapRepository.saveAll(listSupplierControlMap);
+    }
+
+    @Override
+    public List<Controls> save(List<ControlData> listControlData) {
+        if (!listControlData.isEmpty()) {
+            List<Controls> listControl = this.modelMapper.map(listControlData, new TypeToken<List<Controls>>() {}.getType());
+            return this.repository.saveAll(listControl);
+        }
+        return null;
+    }
+
+    public Page<SupplierControlData> getListControlAttribute(String featureId, Pageable pageable) {
+        return supplierControlMapRepository.getListControlAttribute(featureId, pageable);
+    }
 }

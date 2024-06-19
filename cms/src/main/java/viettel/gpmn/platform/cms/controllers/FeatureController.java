@@ -3,10 +3,7 @@ package viettel.gpmn.platform.cms.controllers;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import viettel.gpmn.platform.cms.data.features.FeatureData;
 import viettel.gpmn.platform.cms.data.features.FeatureQuery;
 import viettel.gpmn.platform.cms.entities.Features;
@@ -38,4 +35,5 @@ public class FeatureController extends GenericSaveController<Features, FeatureDa
     ) {
         return Response.ok(this.service.getFeatureDetail(featureId));
     }
+
 }

@@ -19,6 +19,8 @@ import java.util.List;
 @AllArgsConstructor
 public class FeatureService extends GenericSaveService<Features, FeatureData, FeatureRepository> {
 
+    private FeatureRepository featureRepository;
+
     public Page<FeatureData> getListFeatures(FeatureQuery featureQuery, Pageable pageable) {
         return this.repository.getListFeature(featureQuery, pageable);
     }
@@ -35,15 +37,26 @@ public class FeatureService extends GenericSaveService<Features, FeatureData, Fe
     }
 
     @Override
-    public void save(List<FeatureData> listFeatureData) {
+    public List<Features> save(List<FeatureData> listFeatureData) {
         if (!listFeatureData.isEmpty()) {
             List<Features> listFeature = this.modelMapper.map(listFeatureData, new TypeToken<List<Features>>() {}.getType());
-            this.repository.saveAll(listFeature);
+            return this.repository.saveAll(listFeature);
         }
+        return null;
     }
 
     public Page<FeatureModuleData> getFeaturesModule(String moduleId, Boolean isInModule, FeatureQuery featureQuery, Pageable pageable) {
         return this.repository.getFeatureInModule(moduleId, isInModule, featureQuery, pageable);
+    }
+
+    public Page<FeatureModuleData> getListFeatureByRole(String rolesId, FeatureQuery featureQuery, Pageable pageable) {
+        return featureRepository.getListFeatureByRole(rolesId, featureQuery, pageable);
+    }
+
+
+    public List<FeatureData> getListFeatureExcludeRoleId(String rolesId) {
+        List<Features> listFeature = featureRepository.getListFeatureExcludeRoleId(rolesId);
+        return this.modelMapper.map(listFeature, new TypeToken<List<FeatureData>>() {}.getType());
     }
 
 }

@@ -21,6 +21,7 @@ import viettel.gpmn.platform.core.services.KafkaService;
 import viettel.gpmn.platform.core.utilities.Constant;
 import viettel.gpmn.platform.core.utilities.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,9 +35,11 @@ public class SupplierService extends BaseService {
     private SupplierRepository supplierRepository;
     private SupplierDatabaseRepository supplierDatabaseRepository;
     private SupplierModuleMapRepository supplierModuleMapRepository;
+    private SupplierControlMapRepository supplierControlMapRepository;
     private UserRepository userRepository;
     private UserSupplierMapRepository userSupplierMapRepository;
 
+    private ControlService controlService;
     private KafkaService kafkaService;
 
     public Page<SupplierListData> getListSuppliers(SupplierQuery supplierQuery, Pageable pageable) {
@@ -87,6 +90,15 @@ public class SupplierService extends BaseService {
                 listSupplierModuleData.forEach(supplierModuleData -> supplierModuleData.setSupplierId(supplier.getId()));
                 this.saveSupplierModules(listSupplierModuleData);
             }
+
+            List<SupplierControlMap> listSupplierControlMap = new ArrayList<>();
+            controlService.getListAllControl().forEach(control -> {
+                SupplierControlMap supplierControlMap = new SupplierControlMap();
+                supplierControlMap.setSupplierId(supplier.getId());
+                supplierControlMap.setControlId(control.getId());
+                listSupplierControlMap.add(supplierControlMap);
+            });
+            supplierControlMapRepository.saveAll(listSupplierControlMap);
         }
     }
 
@@ -108,9 +120,11 @@ public class SupplierService extends BaseService {
         return supplierRepository.save(supplier);
     }
 
-    public List<SupplierModuleData> getListSupplierModules(String supplierId) {
-        List<SupplierModuleMap> listSupplierModuleMap = supplierModuleMapRepository.findAllBySupplierId(supplierId);
-        return this.modelMapper.map(listSupplierModuleMap, new TypeToken<List<SupplierModuleData>>() {}.getType());
+    public Page<SupplierModuleData> getListSupplierModules(String supplierId, Pageable pageable) {
+        Page<SupplierModuleMap> pageSupplierModuleMap = supplierModuleMapRepository.findAllBySupplierId(supplierId, pageable);
+        List<SupplierModuleData> listSupplierModuleData =
+                this.modelMapper.map(pageSupplierModuleMap.getContent(), new TypeToken<List<SupplierModuleData>>() {}.getType());
+        return new PageImpl<>(listSupplierModuleData, pageable, pageSupplierModuleMap.getTotalElements());
     }
 
     @Transactional

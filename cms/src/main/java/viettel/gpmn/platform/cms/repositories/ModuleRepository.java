@@ -8,9 +8,19 @@ import viettel.gpmn.platform.cms.entities.Modules;
 import viettel.gpmn.platform.core.enums.DBStatus;
 import viettel.gpmn.platform.core.repositories.BaseRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ModuleRepository extends BaseRepository<Modules> {
+
+    @Query(value = """
+        select m
+        from Modules m
+        left join SupplierModuleMap smm on smm.moduleId = m.id
+        where 1 = 1
+            and smm.supplierId not like :supplierId
+    """)
+    List<Modules> getListModuleNotInSupplierId(String supplierId);
 
     Optional<Modules> findByIdAndStatus(String id, DBStatus status);
 

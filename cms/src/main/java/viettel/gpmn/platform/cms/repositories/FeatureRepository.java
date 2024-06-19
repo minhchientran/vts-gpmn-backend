@@ -103,4 +103,49 @@ public interface FeatureRepository extends BaseRepository<Features> {
             """)
     Page<FeatureModuleData> getFeatureInModule(String moduleId, Boolean isInModule, FeatureQuery featureQuery, Pageable pageable);
 
+    @Query(value = """
+                    select distinct new viettel.gpmn.platform.cms.data.features.FeatureModuleData(
+                        f.code,
+                        f.name,
+                        pf.code,
+                        f.featureType,
+                        f.url,
+                        f.seq,
+                        mfm.moduleId,
+                        f.id,
+                        mfm.status
+                    )
+                    from Features f
+                    join RoleFeatureMap rfm
+                        on rfm.featureId = f.id
+                        and rfm.status = viettel.gpmn.platform.core.enums.DBStatus.ACTIVE
+                    left join Features pf
+                        on pf.id = f.parentFeatureId
+                        and pf.status = viettel.gpmn.platform.core.enums.DBStatus.ACTIVE
+                    left join ModuleFeatureMap mfm
+                        on mfm.featureId = f.id
+                        and mfm.moduleId = :moduleId
+                        and mfm.status = viettel.gpmn.platform.core.enums.DBStatus.ACTIVE
+                    where 1 = 1
+                        and rfm.roleId = :roleId
+                        and ( :#{#featureQuery.name} is null
+                            or f.name like %:#{#featureQuery.name}%
+                            or f.code like %:#{#featureQuery.name}%
+                            )
+                        and ( :#{#featureQuery.parentId} is null or f.parentFeatureId = :#{#featureQuery.parentId} )
+                        and ( :#{#featureQuery.featureType} is null or f.featureType = :#{#featureQuery.featureType} )
+                        and ( :#{#featureQuery.status} is null or f.status = :#{#featureQuery.status} )
+    """)
+    Page<FeatureModuleData> getListFeatureByRole(String roleId, FeatureQuery featureQuery, Pageable pageable);
+
+    @Query(value = """
+        select f
+        from Features f
+        left join RoleFeatureMap rfm
+            on rfm.featureId = f.id
+            and rfm.status = viettel.gpmn.platform.core.enums.DBStatus.ACTIVE
+        where 1 = 1
+            and rfm.roleId <> :roleId
+    """)
+    List<Features> getListFeatureExcludeRoleId(String roleId);
 }

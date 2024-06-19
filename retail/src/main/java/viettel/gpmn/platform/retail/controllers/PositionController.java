@@ -6,18 +6,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import viettel.gpmn.platform.core.controllers.BaseController;
 import viettel.gpmn.platform.core.data.response.Response;
-import viettel.gpmn.platform.retail.services.SupplierUnitService;
+import viettel.gpmn.platform.retail.services.PositionService;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/v1/units")
-public class SupplierUnitController extends BaseController {
+@RequestMapping("/v1/positions")
+public class PositionController extends BaseController {
 
-    private SupplierUnitService supplierUnitService;
+    private PositionService positionService;
 
-    @GetMapping
-    public Response getList() {
-        return Response.ok(supplierUnitService.getList());
+    @GetMapping(value = "/name")
+    public Response getListPositionName() {
+        return Response.ok(positionService.getListPositionName());
     }
 
 }

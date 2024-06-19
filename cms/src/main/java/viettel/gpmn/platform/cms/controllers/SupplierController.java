@@ -47,8 +47,11 @@ public class SupplierController extends BaseController {
     }
 
     @GetMapping(value = {"/modules"})
-    public Response getListSupplierModules(@RequestParam String supplierId) {
-        return Response.ok(getListSuppliers.getListSupplierModules(supplierId));
+    public Response getListSupplierModules(
+            @RequestParam String supplierId,
+            Pageable pageable
+    ) {
+        return Response.ok(getListSuppliers.getListSupplierModules(supplierId, pageable));
     }
 
     @PostMapping(value = {"/modules"})

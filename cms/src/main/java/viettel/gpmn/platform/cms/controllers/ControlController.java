@@ -1,5 +1,6 @@
 package viettel.gpmn.platform.cms.controllers;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +28,14 @@ public class ControlController extends GenericSaveController<Controls, ControlDa
             ControlQuery controlQuery,
             Pageable pageable) {
         return Response.ok(this.service.getListControlsByFeatureId(featureId, controlQuery, pageable));
+    }
+
+    @GetMapping(value = {"/attribute"})
+    public Response getListControlAttribute(
+            @RequestParam @NotBlank String featureId,
+            Pageable pageable
+    ) {
+        return Response.ok(this.service.getListControlAttribute(featureId, pageable));
     }
 
 }

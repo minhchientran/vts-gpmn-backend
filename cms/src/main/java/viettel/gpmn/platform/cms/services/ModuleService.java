@@ -14,6 +14,7 @@ import viettel.gpmn.platform.cms.data.modules.ModuleData;
 import viettel.gpmn.platform.cms.entities.ModuleFeatureMap;
 import viettel.gpmn.platform.cms.entities.Modules;
 import viettel.gpmn.platform.cms.repositories.ModuleRepository;
+import viettel.gpmn.platform.core.configs.tenant.TenantContext;
 import viettel.gpmn.platform.core.data.InfoData;
 import viettel.gpmn.platform.core.enums.DBStatus;
 import viettel.gpmn.platform.core.services.GenericSaveService;
@@ -34,7 +35,7 @@ public class ModuleService extends GenericSaveService<Modules, ModuleData, Modul
     }
 
     public List<InfoData> getListAllModules() {
-        List<Modules> listAllModules = this.repository.findAll();
+        List<Modules> listAllModules = this.repository.getListModuleNotInSupplierId(TenantContext.getSupplierId());
         return modelMapper.map(listAllModules, new TypeToken<List<InfoData>>() {}.getType());
     }
 
@@ -45,11 +46,12 @@ public class ModuleService extends GenericSaveService<Modules, ModuleData, Modul
     }
 
     @Override
-    public void save(List<ModuleData> listModuleData) {
+    public List<Modules> save(List<ModuleData> listModuleData) {
         if (!listModuleData.isEmpty()) {
             List<Modules> listModule = modelMapper.map(listModuleData, new TypeToken<List<Modules>>() {}.getType());
-            this.repository.saveAll(listModule);
+            return this.repository.saveAll(listModule);
         }
+        return null;
     }
 
     @Transactional

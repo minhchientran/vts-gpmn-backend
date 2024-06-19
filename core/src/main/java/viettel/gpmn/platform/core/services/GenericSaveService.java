@@ -33,5 +33,5 @@ public abstract class GenericSaveService<
         this.save(listData);
     }
 
-    public abstract void save(List<K> listData);
+    public abstract List<T> save(List<K> listData);
 }

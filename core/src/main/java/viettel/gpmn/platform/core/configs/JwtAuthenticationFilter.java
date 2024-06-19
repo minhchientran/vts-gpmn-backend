@@ -49,7 +49,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     authToken.setDetails(userTokenData);
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                     TenantContext.setUserInfo(userTokenData);
-                    tenantManager.setCurrentTenant(userTokenData.getSupplierId());
+                    if (Constant.CMS_CONTEXT_PATH.equalsIgnoreCase(request.getContextPath())) {
+                        tenantManager.setCurrentTenant(userTokenData.getSupplierId());
+                    }
                 }
             }
             filterChain.doFilter(request, response);
