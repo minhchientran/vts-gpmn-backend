@@ -9,6 +9,9 @@ import viettel.gpmn.platform.cms.enums.FeatureType;
 import viettel.gpmn.platform.core.data.InfoData;
 import viettel.gpmn.platform.core.enums.DBStatus;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Data
 @SuperBuilder
 @AllArgsConstructor
@@ -21,6 +24,7 @@ public class FeatureData extends InfoData {
     private String description;
     private String url;
     private Integer seq;
+    private Set<FeatureData> childrenFeature = new HashSet<>();
 
     public FeatureData(
         String id,

@@ -1,12 +1,12 @@
 package viettel.gpmn.platform.cms.repositories;
 
-import viettel.gpmn.platform.cms.data.features.FeatureModuleData;
-import viettel.gpmn.platform.cms.data.features.FeatureQuery;
-import viettel.gpmn.platform.cms.data.features.FeatureData;
-import viettel.gpmn.platform.cms.entities.Features;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
+import viettel.gpmn.platform.cms.data.features.FeatureData;
+import viettel.gpmn.platform.cms.data.features.FeatureModuleData;
+import viettel.gpmn.platform.cms.data.features.FeatureQuery;
+import viettel.gpmn.platform.cms.entities.Features;
 import viettel.gpmn.platform.core.data.users.UserFeatureData;
 import viettel.gpmn.platform.core.enums.DBStatus;
 import viettel.gpmn.platform.core.repositories.BaseRepository;
@@ -21,7 +21,7 @@ public interface FeatureRepository extends BaseRepository<Features> {
     Optional<Features> findByIdAndStatus(String id, DBStatus status);
 
     @Query(value = """
-               select new viettel.gpmn.platform.core.data.users.UserFeatureData (
+               select distinct new viettel.gpmn.platform.core.data.users.UserFeatureData (
                    f.id,
                    f.code,
                    c.id,
@@ -42,7 +42,7 @@ public interface FeatureRepository extends BaseRepository<Features> {
     List<UserFeatureData> getAdminFeatures(String userId, String supplierId);
 
     @Query(value = """
-                select new viettel.gpmn.platform.cms.data.features.FeatureData(
+                select distinct new viettel.gpmn.platform.cms.data.features.FeatureData(
                     f.id,
                     f.code,
                     f.name,
@@ -61,8 +61,8 @@ public interface FeatureRepository extends BaseRepository<Features> {
                         or f.code like %:#{#featureQuery.name}%
                         )
                     and ( :#{#featureQuery.parentId} is null or f.parentFeatureId = :#{#featureQuery.parentId} )
-                    and ( :#{#featureQuery.featureType} is null or f.featureType = :#{#featureQuery.featureType} )
-                    and ( :#{#featureQuery.status} is null or f.status = :#{#featureQuery.status} )
+                    and ( coalesce(:#{#featureQuery.featureType}, null) is null or f.featureType in :#{#featureQuery.featureType} )
+                    and ( coalesce(:#{#featureQuery.status}, null) is null or f.status in :#{#featureQuery.status} )
             """)
     Page<FeatureData> getListFeature(FeatureQuery featureQuery, Pageable pageable);
 
@@ -98,8 +98,8 @@ public interface FeatureRepository extends BaseRepository<Features> {
                         or f.code like %:#{#featureQuery.name}%
                         )
                     and ( :#{#featureQuery.parentId} is null or f.parentFeatureId = :#{#featureQuery.parentId} )
-                    and ( :#{#featureQuery.featureType} is null or f.featureType = :#{#featureQuery.featureType} )
-                    and ( :#{#featureQuery.status} is null or f.status = :#{#featureQuery.status} )
+                    and ( coalesce(:#{#featureQuery.featureType}, null) is null or f.featureType in :#{#featureQuery.featureType} )
+                    and ( coalesce(:#{#featureQuery.status}, null) is null or f.status in :#{#featureQuery.status} )
             """)
     Page<FeatureModuleData> getFeatureInModule(String moduleId, Boolean isInModule, FeatureQuery featureQuery, Pageable pageable);
 
@@ -139,7 +139,7 @@ public interface FeatureRepository extends BaseRepository<Features> {
     Page<FeatureModuleData> getListFeatureByRole(String roleId, FeatureQuery featureQuery, Pageable pageable);
 
     @Query(value = """
-        select f
+        select distinct f
         from Features f
         left join RoleFeatureMap rfm
             on rfm.featureId = f.id
@@ -147,5 +147,6 @@ public interface FeatureRepository extends BaseRepository<Features> {
         where 1 = 1
             and rfm.roleId <> :roleId
     """)
-    List<Features> getListFeatureExcludeRoleId(String roleId);
+    List<Features> getListFeatureHierarchy(String roleId);
+
 }

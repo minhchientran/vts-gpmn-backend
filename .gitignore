@@ -109,3 +109,11 @@ fabric.properties
 /retail/target/classes/application.yaml
 /cms/target/classes/application-dev.yaml
 /retail/target/classes/application-dev.yaml
+!/storage/target/
+/storage/target/classes/application.properties
+/gateway/target/classes/application.yaml
+/storage/target/build-metrics.json
+/storage/target/maven-status/maven-compiler-plugin/compile/null/createdFiles.lst
+/storage/target/maven-status/maven-compiler-plugin/testCompile/null/createdFiles.lst
+/storage/target/maven-status/maven-compiler-plugin/compile/null/inputFiles.lst
+/storage/target/maven-status/maven-compiler-plugin/testCompile/null/inputFiles.lst

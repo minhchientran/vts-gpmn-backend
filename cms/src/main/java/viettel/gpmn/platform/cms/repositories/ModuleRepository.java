@@ -32,8 +32,8 @@ public interface ModuleRepository extends BaseRepository<Modules> {
                         or m.name like %:#{#moduleQuery.name}%
                         or m.code like %:#{#moduleQuery.name}%
                         )
-                    and ( :#{#moduleQuery.subsystem} is null or m.subsystem = :#{#moduleQuery.subsystem} )
-                    and ( :#{#moduleQuery.status} is null or m.status = :#{#moduleQuery.status} )
+                    and ( coalesce(:#{#moduleQuery.subsystem}, null) is null or m.subsystem in :#{#moduleQuery.subsystem} )
+                    and ( coalesce(:#{#moduleQuery.status}, null)  is null or m.status in :#{#moduleQuery.status} )
             """)
     Page<Modules> getListModule(ModuleQuery moduleQuery, Pageable pageable);
 }

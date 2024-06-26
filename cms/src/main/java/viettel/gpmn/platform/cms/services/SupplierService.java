@@ -18,10 +18,14 @@ import viettel.gpmn.platform.core.enums.KafkaTopic;
 import viettel.gpmn.platform.core.enums.Subsystem;
 import viettel.gpmn.platform.core.services.BaseService;
 import viettel.gpmn.platform.core.services.KafkaService;
+import viettel.gpmn.platform.core.services.MinIOService;
 import viettel.gpmn.platform.core.utilities.Constant;
+import viettel.gpmn.platform.core.utilities.MinIOPath;
 import viettel.gpmn.platform.core.utilities.Utils;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,6 +45,7 @@ public class SupplierService extends BaseService {
 
     private ControlService controlService;
     private KafkaService kafkaService;
+    private MinIOService minIOService;
 
     public Page<SupplierListData> getListSuppliers(SupplierQuery supplierQuery, Pageable pageable) {
         Page<Suppliers> pageSupplier = supplierRepository.getListSupplier(supplierQuery, pageable);
@@ -59,7 +64,6 @@ public class SupplierService extends BaseService {
     public void createSupplier(SupplierData supplierData) {
         if (supplierData.getId() == null) {
             Suppliers supplier = this.saveAndReturn(supplierData);
-
             SupplierDatabase supplierDatabase = SupplierDatabase.builder()
                     .supplierId(supplier.getId())
                     .url(Constant.DATABASE_PREFIX + supplier.getCode())
@@ -99,6 +103,13 @@ public class SupplierService extends BaseService {
                 listSupplierControlMap.add(supplierControlMap);
             });
             supplierControlMapRepository.saveAll(listSupplierControlMap);
+
+            minIOService.makeBucket(supplierData.getCode());
+            minIOService.WriteToMinIO(
+                    new ByteArrayInputStream(Base64.getDecoder().decode(supplierData.getLogoFileData())),
+                    supplierData.getCode(),
+                    MinIOPath.SUPPLIER_LOGO + supplierData.getLogoFileName()
+            );
         }
     }
 

@@ -16,6 +16,7 @@ import viettel.gpmn.platform.cms.data.controls.ControlQuery;
 import viettel.gpmn.platform.cms.entities.Controls;
 import viettel.gpmn.platform.cms.repositories.SupplierControlMapRepository;
 import viettel.gpmn.platform.cms.repositories.SupplierRepository;
+import viettel.gpmn.platform.core.services.BaseService;
 import viettel.gpmn.platform.core.services.GenericSaveService;
 
 import java.util.ArrayList;
@@ -24,23 +25,23 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class ControlService extends GenericSaveService<Controls, ControlData, ControlRepository> {
-
+public class ControlService extends BaseService {
+    
+    private ControlRepository controlRepository;
     private SupplierRepository supplierRepository;
     private SupplierControlMapRepository supplierControlMapRepository;
 
     public Page<ControlData> getListControlsByFeatureId(String featureId, ControlQuery controlQuery, Pageable pageable) {
-        Page<Controls> pageControl = this.repository.getAllByFeatureId(featureId, controlQuery, pageable);
+        Page<Controls> pageControl = controlRepository.getAllByFeatureId(featureId, controlQuery, pageable);
         List<ControlData> listControlData = this.modelMapper.map(pageControl.getContent(),
                 new TypeToken<List<ControlData>>() {}.getType());
         return new PageImpl<>(listControlData, pageable, pageControl.getTotalElements());
     }
 
     public List<Controls> getListAllControl() {
-        return this.repository.findAll();
+        return controlRepository.findAll();
     }
-
-    @Override
+    
     @Transactional
     public void create(List<ControlData> listData) {
         listData = listData
@@ -60,11 +61,18 @@ public class ControlService extends GenericSaveService<Controls, ControlData, Co
         supplierControlMapRepository.saveAll(listSupplierControlMap);
     }
 
-    @Override
+    @Transactional
+    public void update(List<ControlData> listData) {
+        listData = listData
+                .stream()
+                .filter(moduleData -> moduleData.getId() != null).collect(Collectors.toList());
+        this.save(listData);
+    }
+
     public List<Controls> save(List<ControlData> listControlData) {
         if (!listControlData.isEmpty()) {
             List<Controls> listControl = this.modelMapper.map(listControlData, new TypeToken<List<Controls>>() {}.getType());
-            return this.repository.saveAll(listControl);
+            return controlRepository.saveAll(listControl);
         }
         return null;
     }

@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      mvc:
+        routes:
+          - id: cms_route
+            uri: ${CMS_URL:http://localhost:8100}
+            predicates:
+              - Path=/cms/**
+          - id: retail_route
+            uri: ${RETAIL_URL:http://localhost:8101}
+            predicates:
+              - Path=/retail/**
+          - id: storage_route
+            uri: ${STORAGE_URL:http://localhost:8102}
+            predicates:
+              - Path=/storage/**
+
+server:
+  port: 8999

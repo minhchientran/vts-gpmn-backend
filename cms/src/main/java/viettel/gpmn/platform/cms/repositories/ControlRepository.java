@@ -15,6 +15,7 @@ public interface ControlRepository extends BaseRepository<Controls> {
         where 1 = 1
             and c.featureId = :featureId
             and (:#{#controlQuery.name} is null or c.name like %:#{#controlQuery.name}% or c.code like %:#{#controlQuery.name}%)
+            and (coalesce(:#{#controlQuery.status}, null) is null or c.status in :#{#controlQuery.status})
     """)
     Page<Controls> getAllByFeatureId(String featureId, ControlQuery controlQuery, Pageable pageable);
 }

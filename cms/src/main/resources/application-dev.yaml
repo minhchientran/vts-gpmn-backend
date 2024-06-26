@@ -14,13 +14,21 @@ spring:
   kafka:
     bootstrap-servers: 10.230.191.178:9092
 
+info:
+  minio:
+    url: 10.30.174.212
+    port: 8773
+    secure: false
+    username: admin
+    password: 123456a@A
+    fileSize: 104857600
 
-#logging:
-#  level:
-#    net:
-#      ttddyy:
-#        dsproxy:
-#          listener: debug
+logging:
+  level:
+    net:
+      ttddyy:
+        dsproxy:
+          listener: debug
 
 server:
   port: 8100

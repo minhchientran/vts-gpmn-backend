@@ -54,14 +54,14 @@ public class RoleController extends GenericSaveController<Roles, RoleData, RoleS
         return Response.ok(this.service.getRoleDetail(roleId));
     }
 
-    @GetMapping(value = {"/features"})
-    public Response getListFeatureByRoleId(String rolesId, FeatureQuery featureQuery, Pageable pageable) {
-        return Response.ok(featureService.getListFeatureByRole(rolesId, featureQuery, pageable));
+    @GetMapping(value = {"/{roleId}/features"})
+    public Response getListFeatureByRoleId(@PathVariable String roleId, FeatureQuery featureQuery, Pageable pageable) {
+        return Response.ok(featureService.getListFeatureByRole(roleId, featureQuery, pageable));
     }
 
-    @GetMapping(value = {"/featuresExcluded"})
-    public Response getListFeatureExcludeRoleId(String rolesId) {
-        return Response.ok(featureService.getListFeatureExcludeRoleId(rolesId));
+    @GetMapping(value = {"/{roleId}/featuresHierarchy"})
+    public Response getListFeatureHierarchy(@PathVariable String roleId) {
+        return Response.ok(featureService.getListFeatureHierarchy(roleId));
     }
 
     @PostMapping(value = {"/features"})
