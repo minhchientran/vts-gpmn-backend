@@ -1,5 +1,8 @@
 package viettel.gpmn.platform.cms.services;
 
+import org.modelmapper.TypeToken;
+import viettel.gpmn.platform.cms.data.modules.ModuleData;
+import viettel.gpmn.platform.cms.entities.Features;
 import viettel.gpmn.platform.cms.entities.Users;
 import viettel.gpmn.platform.cms.repositories.UserRepository;
 import viettel.gpmn.platform.cms.data.users.UserRegisterData;
@@ -35,11 +38,15 @@ public class UserService extends BaseService implements UserDetailsService {
             case ADMIN, RETAIL_BUY, RETAIL_SELL, CONSUMER, PG  -> null;
         };
         List<UserFeatureData> listUserFeatureData = switch (subsystem) {
-            case CMS -> featuresRepository.getAdminFeatures(userTokenData.getUserId(), userTokenData.getSupplierId());
+            case CMS -> {
+                List<Features> listFeature = featuresRepository
+                        .getAdminFeatures(userTokenData.getUserId(), userTokenData.getSupplierId());
+                yield this.modelMapper.map(listFeature, new TypeToken<List<UserFeatureData>>() {}.getType());
+            }
             case ADMIN, RETAIL_BUY, RETAIL_SELL, CONSUMER, PG -> null;
         };
         assert userTokenData != null;
-        userTokenData.setAuthoritiesFromListFeature(listUserFeatureData);
+        userTokenData.setAuthorities(listUserFeatureData);
         return userTokenData;
     }
     public void createUser(UserRegisterData userRegisterData) {

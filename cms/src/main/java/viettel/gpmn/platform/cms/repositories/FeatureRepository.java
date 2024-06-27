@@ -21,14 +21,8 @@ public interface FeatureRepository extends BaseRepository<Features> {
     Optional<Features> findByIdAndStatus(String id, DBStatus status);
 
     @Query(value = """
-               select distinct new viettel.gpmn.platform.core.data.users.UserFeatureData (
-                   f.id,
-                   f.code,
-                   c.id,
-                   c.code
-                )
+                select f
                 from Features f
-                left join Controls c on c.featureId = f.id and c.status = viettel.gpmn.platform.core.enums.DBStatus.ACTIVE
                 join ModuleFeatureMap mfm on mfm.featureId = f.id and mfm.status = viettel.gpmn.platform.core.enums.DBStatus.ACTIVE
                 join Modules m on m.id = mfm.moduleId and m.status = viettel.gpmn.platform.core.enums.DBStatus.ACTIVE
                 join SupplierModuleMap smm on smm.moduleId = m.id and smm.status = viettel.gpmn.platform.core.enums.DBStatus.ACTIVE
@@ -36,10 +30,11 @@ public interface FeatureRepository extends BaseRepository<Features> {
                 join UserSupplierMap usm on usm.supplierId = s.id and usm.status = viettel.gpmn.platform.core.enums.DBStatus.ACTIVE
                 join Users u on u.id = usm.userId and u.status = viettel.gpmn.platform.core.enums.DBStatus.ACTIVE
                 where 1 = 1
-                   and u.id = :userId
-               and s.id = :supplierId
+                    and u.id = :userId
+                    and s.id = :supplierId
+                    and f.parentFeatureId is null
             """)
-    List<UserFeatureData> getAdminFeatures(String userId, String supplierId);
+    List<Features> getAdminFeatures(String userId, String supplierId);
 
     @Query(value = """
                 select distinct new viettel.gpmn.platform.cms.data.features.FeatureData(

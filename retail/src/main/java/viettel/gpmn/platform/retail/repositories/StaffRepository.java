@@ -24,9 +24,9 @@ public interface StaffRepository extends BaseRepository<Staffs> {
         left join SupplierUnits su on su.id = s.positionId
         where 1 = 1
             and (:#{#staffQuery.name} is not null or s.name like %:#{#staffQuery.name}% or s.code like %:#{#staffQuery.name}%)
-            and (:#{#staffQuery.positionId} is not null or p.id = :#{#staffQuery.positionId})
-            and (:#{#staffQuery.unitId} is not null or su.id = :#{#staffQuery.unitId})
-            and (:#{#staffQuery.status} is not null or s.status = :#{#staffQuery.status})
+            and (coalesce(:#{#staffQuery.positionId}, null) is not null or p.id in :#{#staffQuery.positionId})
+            and (coalesce(:#{#staffQuery.unitId}, null) is not null or su.id in :#{#staffQuery.unitId})
+            and (coalesce(:#{#staffQuery.status}, null) is not null or s.status in :#{#staffQuery.status})
     """)
     Page<StaffData> getListStaff(StaffQuery staffQuery, Pageable pageable);
 }

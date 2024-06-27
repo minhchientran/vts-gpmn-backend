@@ -1,4 +1,4 @@
-package viettel.gpmn.platform.cms.enums;
+package viettel.gpmn.platform.core.enums;
 
 public enum ControlAttribute {
     DISABLE("Disable"),

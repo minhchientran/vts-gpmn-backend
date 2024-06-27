@@ -125,7 +125,6 @@ public class SupplierService extends BaseService {
         }
     }
 
-
     public Suppliers saveAndReturn(SupplierData supplierData) {
         Suppliers supplier = this.modelMapper.map(supplierData, Suppliers.class);
         return supplierRepository.save(supplier);

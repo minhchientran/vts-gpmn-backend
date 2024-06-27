@@ -4,9 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import viettel.gpmn.platform.cms.enums.ControlAttribute;
 import viettel.gpmn.platform.cms.enums.ControlType;
 import viettel.gpmn.platform.core.data.InfoData;
+import viettel.gpmn.platform.core.enums.ControlAttribute;
 
 @Data
 @AllArgsConstructor

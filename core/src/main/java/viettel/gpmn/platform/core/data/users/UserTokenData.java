@@ -32,7 +32,7 @@ public class UserTokenData implements UserDetails {
     private Subsystem subsystem;
     private String supplierId;
     private String supplierCode;
-    private List<Authority> authorities;
+    private List<UserFeatureData> authorities;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -59,19 +59,4 @@ public class UserTokenData implements UserDetails {
         return true;
     }
 
-    public void setAuthoritiesFromListFeature(List<UserFeatureData> listUserFeatureData) {
-        Map<String, Authority> mapFeatureData = new HashMap<>();
-        for (UserFeatureData userFeature : listUserFeatureData) {
-            UserControlData userControlData = new UserControlData(userFeature.getControlId(), userFeature.getControlCode());
-            if (mapFeatureData.containsKey(userFeature.getFeatureId())) {
-                mapFeatureData.get(userFeature.getFeatureId()).getControls().add(userControlData);
-            }
-            else {
-                Authority authority = new Authority(userFeature.getFeatureId(), userFeature.getFeatureCode(), new ArrayList<>());
-                authority.getControls().add(userControlData);
-                mapFeatureData.put(userFeature.getFeatureId(), authority);
-            }
-        }
-        this.authorities = new ArrayList<>(mapFeatureData.values());
-    }
 }

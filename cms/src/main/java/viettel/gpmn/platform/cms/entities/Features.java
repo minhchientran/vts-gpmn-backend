@@ -38,4 +38,7 @@ public class Features extends EntityWithInfo {
     @OneToMany(mappedBy="parentFeatureId", fetch = FetchType.EAGER)
     Set<Features> childrenFeature = new HashSet<>();
 
+    @OneToMany(mappedBy="featureId", fetch = FetchType.EAGER)
+    Set<Controls> listControl = new HashSet<>();
+
 }

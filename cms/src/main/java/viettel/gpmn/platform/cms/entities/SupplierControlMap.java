@@ -5,8 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import viettel.gpmn.platform.cms.enums.ControlAttribute;
 import viettel.gpmn.platform.core.entities.EntityWithSupplierId;
+import viettel.gpmn.platform.core.enums.ControlAttribute;
 
 @Getter
 @Setter

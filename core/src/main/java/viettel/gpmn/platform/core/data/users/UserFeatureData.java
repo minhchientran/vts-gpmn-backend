@@ -1,23 +1,22 @@
 package viettel.gpmn.platform.core.data.users;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import viettel.gpmn.platform.core.data.InfoData;
 
-@Data
+import java.util.Set;
+
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-public class UserFeatureData extends UserControlData {
+public class UserFeatureData extends InfoData implements GrantedAuthority {
+    private String id;
+    private String url;
+    private Set<UserControlData> listControl;
+    private Set<UserFeatureData> childrenFeature;
 
-    public UserFeatureData(String featureId, String featureCode, String controlId, String controlCode) {
-        this.featureId = featureId;
-        this.featureCode = featureCode;
-        this.setControlId(controlId);
-        this.setControlCode(controlCode);
+    public String getAuthority() {
+        return this.getCode();
     }
-
-    private String featureId;
-    private String featureCode;
 }
