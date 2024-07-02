@@ -7,6 +7,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -54,6 +55,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     }
                 }
             }
+            LocaleContextHolder.setLocale(request.getLocale());
             filterChain.doFilter(request, response);
         }
         catch (Exception exception) {

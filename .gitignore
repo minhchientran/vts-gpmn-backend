@@ -117,3 +117,5 @@ fabric.properties
 /storage/target/maven-status/maven-compiler-plugin/testCompile/null/createdFiles.lst
 /storage/target/maven-status/maven-compiler-plugin/compile/null/inputFiles.lst
 /storage/target/maven-status/maven-compiler-plugin/testCompile/null/inputFiles.lst
+/core/target/classes/i18n/messages.properties
+/core/target/classes/i18n/messages_vi.properties
