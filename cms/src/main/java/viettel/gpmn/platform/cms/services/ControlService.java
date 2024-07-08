@@ -8,16 +8,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import viettel.gpmn.platform.cms.data.controls.ControlData;
+import viettel.gpmn.platform.cms.data.controls.ControlQuery;
 import viettel.gpmn.platform.cms.data.controls.SupplierControlData;
+import viettel.gpmn.platform.cms.entities.Controls;
 import viettel.gpmn.platform.cms.entities.SupplierControlMap;
 import viettel.gpmn.platform.cms.entities.Suppliers;
 import viettel.gpmn.platform.cms.repositories.ControlRepository;
-import viettel.gpmn.platform.cms.data.controls.ControlQuery;
-import viettel.gpmn.platform.cms.entities.Controls;
 import viettel.gpmn.platform.cms.repositories.SupplierControlMapRepository;
 import viettel.gpmn.platform.cms.repositories.SupplierRepository;
+import viettel.gpmn.platform.core.data.BaseData;
 import viettel.gpmn.platform.core.services.BaseService;
-import viettel.gpmn.platform.core.services.GenericSaveService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,11 +62,11 @@ public class ControlService extends BaseService {
     }
 
     @Transactional
-    public void update(List<ControlData> listData) {
-        listData = listData
+    public void update(List<ControlData> listControlData) {
+        listControlData = listControlData
                 .stream()
                 .filter(moduleData -> moduleData.getId() != null).collect(Collectors.toList());
-        this.save(listData);
+        this.save(listControlData);
     }
 
     public List<Controls> save(List<ControlData> listControlData) {
@@ -75,6 +75,12 @@ public class ControlService extends BaseService {
             return controlRepository.saveAll(listControl);
         }
         return null;
+    }
+
+    @Transactional
+    public void updateStatus(List<BaseData> listControlData) {
+        listControlData.forEach(controlData ->
+                controlRepository.updateStatus(controlData.getId(), controlData.getStatus()));
     }
 
     public Page<SupplierControlData> getListControlAttribute(String featureId, Pageable pageable) {

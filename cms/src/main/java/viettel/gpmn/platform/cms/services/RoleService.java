@@ -17,19 +17,21 @@ import viettel.gpmn.platform.cms.entities.StaffRoleMap;
 import viettel.gpmn.platform.cms.repositories.RoleFeatureMapRepository;
 import viettel.gpmn.platform.cms.repositories.RoleRepository;
 import viettel.gpmn.platform.cms.repositories.StaffRoleMapRepository;
-import viettel.gpmn.platform.core.services.GenericSaveService;
+import viettel.gpmn.platform.core.data.BaseData;
+import viettel.gpmn.platform.core.services.BaseService;
 
 import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class RoleService extends GenericSaveService<Roles, RoleData, RoleRepository> {
-
+public class RoleService extends BaseService {
+    
     private StaffRoleMapRepository staffRoleMapRepository;
+    private RoleRepository roleRepository;
     private RoleFeatureMapRepository roleFeatureMapRepository;
 
     public Page<RoleData> getListRole(RoleQuery roleQuery, Pageable pageable) {
-        Page<Roles> pageRoles = this.repository.getListRole(roleQuery, pageable);
+        Page<Roles> pageRoles = roleRepository.getListRole(roleQuery, pageable);
         List<RoleData> listRoleData = this.modelMapper.map(
                 pageRoles.getContent(),
                 new TypeToken<List<RoleData>>() {}.getType()
@@ -38,7 +40,7 @@ public class RoleService extends GenericSaveService<Roles, RoleData, RoleReposit
     }
 
     public Page<RoleData> getListRoleByStaffId(String staffId, RoleQuery roleQuery, Pageable pageable) {
-        Page<Roles> pageRoles = this.repository.getListRoleByStaffId(staffId, roleQuery, pageable);
+        Page<Roles> pageRoles = roleRepository.getListRoleByStaffId(staffId, roleQuery, pageable);
         List<RoleData> listRoleData = this.modelMapper.map(
                 pageRoles.getContent(),
                 new TypeToken<List<RoleData>>() {}.getType()
@@ -56,24 +58,27 @@ public class RoleService extends GenericSaveService<Roles, RoleData, RoleReposit
     }
 
     public List<RoleData> getListRoleExcludeStaffId(String staffId) {
-        List<Roles> listRoles = this.repository.getListRoleExcludeStaffId(staffId);
+        List<Roles> listRoles = roleRepository.getListRoleExcludeStaffId(staffId);
         return this.modelMapper.map(listRoles, new TypeToken<List<RoleData>>() {}.getType());
     }
 
     public RoleData getRoleDetail(String roleId) {
-        Roles role = this.repository.findById(roleId).orElseThrow();
+        Roles role = roleRepository.findById(roleId).orElseThrow();
         return this.modelMapper.map(role, RoleData.class);
     }
 
-    @Override
-    public List<Roles> save(List<RoleData> listData) {
-        if (listData != null && !listData.isEmpty()) {
-            return this.repository.saveAll(
-                    this.modelMapper.map(listData, new TypeToken<List<Roles>>() {}.getType())
-            );
-        }
-        return null;
+    @Transactional
+    public void save(List<RoleData> listData) {
+        roleRepository.saveAll(
+                this.modelMapper.map(listData, new TypeToken<List<Roles>>() {}.getType())
+        );
     }
+
+    @Transactional
+    public void updateRolesStatus(List<BaseData> listRoleData) {
+        listRoleData.forEach(roleData -> roleRepository.updateStatus(roleData.getId(), roleData.getStatus()));
+    }
+
 
     @Transactional
     public void saveFeature2Role(List<RoleFeatureMapData> listRoleFeatureMapData) {

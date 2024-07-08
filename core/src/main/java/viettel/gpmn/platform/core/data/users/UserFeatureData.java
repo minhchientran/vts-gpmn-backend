@@ -13,6 +13,7 @@ import java.util.Set;
 public class UserFeatureData extends InfoData implements GrantedAuthority {
     private String id;
     private String url;
+    private Integer seq;
     private Set<UserControlData> listControl;
     private Set<UserFeatureData> childrenFeature;
 

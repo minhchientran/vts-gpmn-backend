@@ -8,10 +8,10 @@ import viettel.gpmn.platform.cms.data.role.RoleData;
 import viettel.gpmn.platform.cms.data.role.RoleFeatureMapData;
 import viettel.gpmn.platform.cms.data.role.RoleQuery;
 import viettel.gpmn.platform.cms.data.role.StaffRoleData;
-import viettel.gpmn.platform.cms.entities.Roles;
 import viettel.gpmn.platform.cms.services.FeatureService;
 import viettel.gpmn.platform.cms.services.RoleService;
-import viettel.gpmn.platform.core.controllers.GenericSaveController;
+import viettel.gpmn.platform.core.controllers.BaseController;
+import viettel.gpmn.platform.core.data.BaseData;
 import viettel.gpmn.platform.core.data.response.Response;
 
 import java.util.List;
@@ -19,14 +19,27 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/v1/roles")
-public class RoleController extends GenericSaveController<Roles, RoleData, RoleService> {
-
+public class RoleController extends BaseController {
+    
     private FeatureService featureService;
-
+    private RoleService roleService;
+    
     @GetMapping
     public Response getListRole(RoleQuery roleQuery, Pageable pageable
     ) {
-        return Response.ok(this.service.getListRole(roleQuery, pageable));
+        return Response.ok(roleService.getListRole(roleQuery, pageable));
+    }
+
+    @RequestMapping(method = {RequestMethod.POST, RequestMethod.PUT})
+    public Response saveModules(@RequestBody List<RoleData> listRoleData) {
+        roleService.save(listRoleData);
+        return Response.ok();
+    }
+
+    @PutMapping(value = {"/status"})
+    public Response updateRolesStatus(@RequestBody List<BaseData> listRoleData) {
+        roleService.updateRolesStatus(listRoleData);
+        return Response.ok();
     }
 
     @GetMapping(value = {"/staff"})
@@ -35,23 +48,23 @@ public class RoleController extends GenericSaveController<Roles, RoleData, RoleS
             RoleQuery roleQuery,
             Pageable pageable
     ) {
-        return Response.ok(this.service.getListRoleByStaffId(staffId, roleQuery, pageable));
+        return Response.ok(roleService.getListRoleByStaffId(staffId, roleQuery, pageable));
     }
 
     @GetMapping(value = {"/staffExcluded"})
     public Response getListRoleExcludeStaffId(@RequestParam String staffId) {
-        return Response.ok(this.service.getListRoleExcludeStaffId(staffId));
+        return Response.ok(roleService.getListRoleExcludeStaffId(staffId));
     }
 
     @PostMapping(value = {"/staff"})
     public Response addRole2Staff(@RequestBody List<StaffRoleData> listStaffRoleData) {
-        this.service.saveRole2Staff(listStaffRoleData);
+        roleService.saveRole2Staff(listStaffRoleData);
         return Response.ok();
     }
 
     @GetMapping(value = {"/{roleId}"})
     public Response getRoleDetail(@PathVariable String roleId) {
-        return Response.ok(this.service.getRoleDetail(roleId));
+        return Response.ok(roleService.getRoleDetail(roleId));
     }
 
     @GetMapping(value = {"/{roleId}/features"})
@@ -66,7 +79,7 @@ public class RoleController extends GenericSaveController<Roles, RoleData, RoleS
 
     @PostMapping(value = {"/features"})
     public Response saveFeature2Role(@RequestBody List<RoleFeatureMapData> listRoleFeatureMapData) {
-        this.service.saveFeature2Role(listRoleFeatureMapData);
+        roleService.saveFeature2Role(listRoleFeatureMapData);
         return Response.ok();
     }
 

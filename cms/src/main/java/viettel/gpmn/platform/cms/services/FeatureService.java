@@ -11,6 +11,7 @@ import viettel.gpmn.platform.cms.data.features.FeatureModuleData;
 import viettel.gpmn.platform.cms.data.features.FeatureQuery;
 import viettel.gpmn.platform.cms.entities.Features;
 import viettel.gpmn.platform.cms.repositories.FeatureRepository;
+import viettel.gpmn.platform.core.data.BaseData;
 import viettel.gpmn.platform.core.enums.DBStatus;
 import viettel.gpmn.platform.core.services.BaseService;
 
@@ -43,6 +44,12 @@ public class FeatureService extends BaseService {
             List<Features> listFeature = this.modelMapper.map(listFeatureData, new TypeToken<List<Features>>() {}.getType());
             featureRepository.saveAll(listFeature);
         }
+    }
+
+    @Transactional
+    public void updateFeatureStatus(List<BaseData> listFeatureData) {
+        listFeatureData.forEach(featureData ->
+                featureRepository.updateStatus(featureData.getId(), featureData.getStatus()));
     }
 
     public Page<FeatureModuleData> getFeaturesModule(String moduleId, Boolean isInModule, FeatureQuery featureQuery, Pageable pageable) {

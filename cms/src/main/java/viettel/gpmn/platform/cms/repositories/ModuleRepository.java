@@ -2,6 +2,7 @@ package viettel.gpmn.platform.cms.repositories;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import viettel.gpmn.platform.cms.data.modules.ModuleQuery;
 import viettel.gpmn.platform.cms.entities.Modules;
@@ -36,4 +37,8 @@ public interface ModuleRepository extends BaseRepository<Modules> {
                     and ( coalesce(:#{#moduleQuery.status}, null)  is null or m.status in :#{#moduleQuery.status} )
             """)
     Page<Modules> getListModule(ModuleQuery moduleQuery, Pageable pageable);
+
+    @Modifying
+    @Query("update Modules m set m.status = :status where m.id = :moduleId")
+    void updateStatus(String moduleId, DBStatus status);
 }

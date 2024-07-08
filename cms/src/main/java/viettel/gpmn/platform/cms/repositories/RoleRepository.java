@@ -2,9 +2,11 @@ package viettel.gpmn.platform.cms.repositories;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import viettel.gpmn.platform.cms.data.role.RoleQuery;
 import viettel.gpmn.platform.cms.entities.Roles;
+import viettel.gpmn.platform.core.enums.DBStatus;
 import viettel.gpmn.platform.core.repositories.BaseRepository;
 
 import java.util.List;
@@ -47,4 +49,8 @@ public interface RoleRepository extends BaseRepository<Roles> {
             and srm.staffId <> :staffId
     """)
     List<Roles> getListRoleExcludeStaffId(String staffId);
+
+    @Modifying
+    @Query(value = "update Roles r set r.status = :status where r.id = :roleId")
+    void updateStatus(String roleId, DBStatus status);
 }

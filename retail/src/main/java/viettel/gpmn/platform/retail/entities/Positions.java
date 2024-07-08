@@ -11,7 +11,6 @@ import viettel.gpmn.platform.core.entities.EntityWithInfo;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "positions")
 public class Positions extends EntityWithInfo {

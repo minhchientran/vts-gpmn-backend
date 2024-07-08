@@ -2,6 +2,7 @@ package viettel.gpmn.platform.cms.repositories;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import viettel.gpmn.platform.cms.data.features.FeatureData;
 import viettel.gpmn.platform.cms.data.features.FeatureModuleData;
@@ -144,4 +145,7 @@ public interface FeatureRepository extends BaseRepository<Features> {
     """)
     List<Features> getListFeatureHierarchy(String roleId);
 
+    @Modifying
+    @Query("update Features f set f.status = :status where f.id = :featureId")
+    void updateStatus(String featureId, DBStatus status);
 }
