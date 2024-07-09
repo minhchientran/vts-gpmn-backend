@@ -14,6 +14,7 @@ import viettel.gpmn.platform.cms.services.OTPService;
 import viettel.gpmn.platform.core.configs.tenant.TenantContext;
 import viettel.gpmn.platform.core.controllers.BaseController;
 import viettel.gpmn.platform.core.data.response.Response;
+import viettel.gpmn.platform.core.enums.OTPPrefix;
 import viettel.gpmn.platform.core.services.JwtService;
 
 import java.util.Objects;
@@ -42,7 +43,7 @@ public class AuthenticationController extends BaseController {
 
     @PostMapping("/otp")
     public Response sendOtp(
-            @RequestParam @NotBlank String prefix,
+            @RequestParam @NotBlank OTPPrefix prefix,
             @RequestParam @NotBlank String objectId
     ) {
         return Response.ok(otpService.generateOTP(prefix, objectId));

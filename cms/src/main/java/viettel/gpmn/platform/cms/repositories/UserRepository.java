@@ -25,4 +25,6 @@ public interface UserRepository extends BaseRepository<Users> {
             "   AND u.username = :username " +
             "   AND u.status = viettel.gpmn.platform.core.enums.DBStatus.ACTIVE ")
     UserTokenData findByUsernameAndSubsystem(String username, Subsystem subsystem);
+
+    Boolean existsByUsername(String username);
 }

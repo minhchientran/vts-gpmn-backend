@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import viettel.gpmn.platform.cms.data.OtpData;
 import viettel.gpmn.platform.cms.entities.Parameters;
 import viettel.gpmn.platform.cms.repositories.ParameterRepository;
+import viettel.gpmn.platform.core.enums.OTPPrefix;
 import viettel.gpmn.platform.core.services.BaseService;
 import viettel.gpmn.platform.core.utilities.Constant;
 
@@ -23,7 +24,7 @@ public class OTPService extends BaseService {
 
     private RedisTemplate<String, Object> redisTemplate;
 
-    public OtpData generateOTP(String prefix, String objectId) {
+    public OtpData generateOTP(OTPPrefix prefix, String objectId) {
         long otpExpiredTime = 300;
         int otpLength = 5;
         String otp = "12345";
@@ -45,7 +46,7 @@ public class OTPService extends BaseService {
         if (!isTest) {
             otp = randomOTP(otpLength);
         }
-        redisTemplate.opsForValue().set(prefix + Constant.SEPARATE + objectId, otp, otpExpiredTime, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(prefix.getValue() + Constant.SEPARATE + objectId, otp, otpExpiredTime, TimeUnit.SECONDS);
         return new OtpData(otp, otpExpiredTime);
     }
 

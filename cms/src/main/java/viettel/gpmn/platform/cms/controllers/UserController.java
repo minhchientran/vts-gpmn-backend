@@ -1,12 +1,9 @@
 package viettel.gpmn.platform.cms.controllers;
 
+import org.springframework.web.bind.annotation.*;
 import viettel.gpmn.platform.cms.data.users.UserRegisterData;
 import viettel.gpmn.platform.cms.services.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import viettel.gpmn.platform.core.controllers.BaseController;
 import viettel.gpmn.platform.core.data.response.Response;
 
@@ -23,4 +20,8 @@ public class UserController extends BaseController {
         return Response.ok();
     }
 
+    @GetMapping(value = {"/check"})
+    Response checkUserExisted(@RequestParam String username) {
+        return Response.ok(userService.checkUserExisted(username));
+    }
 }

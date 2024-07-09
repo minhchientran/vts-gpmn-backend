@@ -1,20 +1,21 @@
 package viettel.gpmn.platform.cms.services;
 
-import org.modelmapper.TypeToken;
-import viettel.gpmn.platform.cms.data.modules.ModuleData;
-import viettel.gpmn.platform.cms.entities.Features;
-import viettel.gpmn.platform.cms.entities.Users;
-import viettel.gpmn.platform.cms.repositories.UserRepository;
-import viettel.gpmn.platform.cms.data.users.UserRegisterData;
-import viettel.gpmn.platform.cms.repositories.FeatureRepository;
 import lombok.AllArgsConstructor;
+import org.modelmapper.TypeToken;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import viettel.gpmn.platform.cms.data.users.UserRegisterData;
+import viettel.gpmn.platform.cms.entities.Features;
+import viettel.gpmn.platform.cms.entities.Users;
+import viettel.gpmn.platform.cms.repositories.FeatureRepository;
+import viettel.gpmn.platform.cms.repositories.UserRepository;
 import viettel.gpmn.platform.core.data.users.UserFeatureData;
 import viettel.gpmn.platform.core.data.users.UserTokenData;
+import viettel.gpmn.platform.core.enums.OTPPrefix;
 import viettel.gpmn.platform.core.enums.Subsystem;
 import viettel.gpmn.platform.core.services.BaseService;
 import viettel.gpmn.platform.core.utilities.Constant;
@@ -27,6 +28,8 @@ public class UserService extends BaseService implements UserDetailsService {
     private UserRepository userRepository;
     private FeatureRepository featuresRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public UserDetails loadUserByUsername(String loginIdentityString) throws UsernameNotFoundException {
@@ -50,10 +53,18 @@ public class UserService extends BaseService implements UserDetailsService {
         return userTokenData;
     }
     public void createUser(UserRegisterData userRegisterData) {
-        Users user = new Users();
-        user.setUsername(userRegisterData.getUsername());
-        String encodePassword = bCryptPasswordEncoder.encode(userRegisterData.getPassword());
-        user.setPassword(encodePassword);
-        userRepository.save(user);
+        if (redisTemplate.opsForValue().get(OTPPrefix.CREATE_ACCOUNT_.getValue() + userRegisterData.getUsername()) != null) {
+            Users user = new Users();
+            user.setUsername(userRegisterData.getUsername());
+            String encodePassword = bCryptPasswordEncoder.encode(userRegisterData.getPassword());
+            user.setPassword(encodePassword);
+            userRepository.save(user);
+            redisTemplate.delete(OTPPrefix.CREATE_ACCOUNT_.getValue() + userRegisterData.getUsername());
+        }
     }
+
+    public Boolean checkUserExisted(String username) {
+        return userRepository.existsByUsername(username);
+    }
+
 }

@@ -31,7 +31,7 @@ public class RoleController extends BaseController {
     }
 
     @RequestMapping(method = {RequestMethod.POST, RequestMethod.PUT})
-    public Response saveModules(@RequestBody List<RoleData> listRoleData) {
+    public Response saveRoles(@RequestBody List<RoleData> listRoleData) {
         roleService.save(listRoleData);
         return Response.ok();
     }
