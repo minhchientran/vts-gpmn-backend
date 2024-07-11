@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import viettel.gpmn.platform.cms.data.role.RoleData;
 import viettel.gpmn.platform.cms.data.role.RoleQuery;
 import viettel.gpmn.platform.cms.entities.Roles;
 import viettel.gpmn.platform.core.enums.DBStatus;
@@ -27,7 +28,13 @@ public interface RoleRepository extends BaseRepository<Roles> {
     Page<Roles> getListRole(RoleQuery roleQuery, Pageable pageable);
 
     @Query(value = """
-        select r
+        select new viettel.gpmn.platform.cms.data.role.RoleData(
+            r.id,
+            r.code,
+            r.name,
+            srm.fromDate,
+            srm.toDate
+        )
         from Roles r
         join StaffRoleMap srm on srm.roleId = r.id
         where 1 = 1
@@ -39,7 +46,7 @@ public interface RoleRepository extends BaseRepository<Roles> {
             )
             and (coalesce(:#{#roleQuery.status}, null) is null or r.status in :#{#roleQuery.status})
     """)
-    Page<Roles> getListRoleByStaffId(String staffId, RoleQuery roleQuery, Pageable pageable);
+    Page<RoleData> getListRoleByStaffId(String staffId, RoleQuery roleQuery, Pageable pageable);
 
     @Query(value = """
         select r

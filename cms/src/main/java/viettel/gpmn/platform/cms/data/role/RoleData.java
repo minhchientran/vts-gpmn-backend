@@ -13,4 +13,18 @@ import java.time.LocalDateTime;
 public class RoleData extends InfoData {
     private LocalDateTime fromDate;
     private LocalDateTime toDate;
+
+    public RoleData(
+        String id,
+        String code,
+        String name,
+        LocalDateTime fromDate,
+        LocalDateTime toDate
+    ) {
+        setId(id);
+        setCode(code);
+        setName(name);
+        this.fromDate = fromDate;
+        this.toDate = toDate;
+    }
 }

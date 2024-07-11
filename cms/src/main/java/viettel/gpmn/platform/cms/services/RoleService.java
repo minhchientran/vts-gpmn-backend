@@ -40,12 +40,7 @@ public class RoleService extends BaseService {
     }
 
     public Page<RoleData> getListRoleByStaffId(String staffId, RoleQuery roleQuery, Pageable pageable) {
-        Page<Roles> pageRoles = roleRepository.getListRoleByStaffId(staffId, roleQuery, pageable);
-        List<RoleData> listRoleData = this.modelMapper.map(
-                pageRoles.getContent(),
-                new TypeToken<List<RoleData>>() {}.getType()
-        );
-        return new PageImpl<>(listRoleData, pageable, pageRoles.getTotalElements());
+        return roleRepository.getListRoleByStaffId(staffId, roleQuery, pageable);
     }
 
     @Transactional
