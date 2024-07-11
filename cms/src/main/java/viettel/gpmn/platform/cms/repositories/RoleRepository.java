@@ -29,9 +29,10 @@ public interface RoleRepository extends BaseRepository<Roles> {
 
     @Query(value = """
         select new viettel.gpmn.platform.cms.data.role.RoleData(
-            r.id,
+            srm.id,
             r.code,
             r.name,
+            srm.status,
             srm.fromDate,
             srm.toDate
         )
@@ -60,4 +61,8 @@ public interface RoleRepository extends BaseRepository<Roles> {
     @Modifying
     @Query(value = "update Roles r set r.status = :status where r.id = :roleId")
     void updateStatus(String roleId, DBStatus status);
+
+    @Modifying
+    @Query(value = "update StaffRoleMap srm set srm.status = :status where srm.id = :staffRoleId")
+    void updateStaffRoleStatus(String staffRoleId, DBStatus status);
 }
