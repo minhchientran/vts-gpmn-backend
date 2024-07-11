@@ -44,9 +44,9 @@ public interface RoleRepository extends BaseRepository<Roles> {
     @Query(value = """
         select r
         from Roles r
-        left join StaffRoleMap srm on srm.roleId = r.id
+        left join StaffRoleMap srm on srm.roleId = r.id and srm.staffId = :staffId
         where 1 = 1
-            and srm.staffId <> :staffId
+            and srm.staffId is null
     """)
     List<Roles> getListRoleExcludeStaffId(String staffId);
 
