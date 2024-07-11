@@ -63,6 +63,18 @@ public class SupplierService extends BaseService {
     @Transactional
     public void createSupplier(SupplierData supplierData) {
         if (supplierData.getId() == null) {
+
+            minIOService.makeBucket(supplierData.getCode());
+            if (supplierData.getLogoFileData() != null && supplierData.getLogoFileName() != null) {
+                String logoFilePath = MinIOPath.SUPPLIER_LOGO + supplierData.getLogoFileName();
+                minIOService.WriteToMinIO(
+                        new ByteArrayInputStream(Base64.getDecoder().decode(supplierData.getLogoFileData())),
+                        supplierData.getCode(),
+                        logoFilePath
+                );
+                supplierData.setLogo(logoFilePath);
+            }
+
             Suppliers supplier = this.saveAndReturn(supplierData);
             SupplierDatabase supplierDatabase = SupplierDatabase.builder()
                     .supplierId(supplier.getId())
@@ -103,13 +115,6 @@ public class SupplierService extends BaseService {
                 listSupplierControlMap.add(supplierControlMap);
             });
             supplierControlMapRepository.saveAll(listSupplierControlMap);
-
-            minIOService.makeBucket(supplierData.getCode());
-            minIOService.WriteToMinIO(
-                    new ByteArrayInputStream(Base64.getDecoder().decode(supplierData.getLogoFileData())),
-                    supplierData.getCode(),
-                    MinIOPath.SUPPLIER_LOGO + supplierData.getLogoFileName()
-            );
         }
     }
 

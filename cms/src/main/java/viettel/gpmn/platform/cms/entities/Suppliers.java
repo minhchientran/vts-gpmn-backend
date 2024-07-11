@@ -27,6 +27,8 @@ public class Suppliers extends EntityWithInfo {
     @Column
     private String email;
     @Column
+    private String address;
+    @Column
     private String logo;
     @Column
     private LocalDateTime activeDate;

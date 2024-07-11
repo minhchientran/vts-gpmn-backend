@@ -15,7 +15,9 @@ public class SupplierData extends SupplierListData {
     private String representationName;
     private String email;
     private String businessDomain;
+    private String address;
     private String logoFileName;
     private String logoFileData;
+    private String logo;
     private List<SupplierModuleData> listSupplierModule;
 }
