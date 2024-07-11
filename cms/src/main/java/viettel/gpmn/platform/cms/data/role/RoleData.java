@@ -9,4 +9,6 @@ import viettel.gpmn.platform.core.data.InfoData;
 @Setter
 @NoArgsConstructor
 public class RoleData extends InfoData {
+    private String fromDate;
+    private String toDate;
 }
