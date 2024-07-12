@@ -33,6 +33,12 @@ public class RoleController extends BaseController {
         return Response.ok();
     }
 
+    @PutMapping(value = {"/staff/status"})
+    public Response updateStaffRolesStatus(@RequestBody List<BaseData> listRoleData) {
+        roleService.updateStaffRoleStatus(listRoleData);
+        return Response.ok();
+    }
+
     @PutMapping(value = {"/status"})
     public Response updateRolesStatus(@RequestBody List<BaseData> listRoleData) {
         roleService.updateRolesStatus(listRoleData);

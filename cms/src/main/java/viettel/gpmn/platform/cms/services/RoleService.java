@@ -78,8 +78,13 @@ public class RoleService extends BaseService {
     }
 
     @Transactional
-    public void updateRolesStatus(List<BaseData> listRoleData) {
+    public void updateStaffRoleStatus(List<BaseData> listRoleData) {
         listRoleData.forEach(roleData -> roleRepository.updateStaffRoleStatus(roleData.getId(), roleData.getStatus()));
+    }
+
+    @Transactional
+    public void updateRolesStatus(List<BaseData> listRoleData) {
+        listRoleData.forEach(roleData -> roleRepository.updateStatus(roleData.getId(), roleData.getStatus()));
     }
 
 
