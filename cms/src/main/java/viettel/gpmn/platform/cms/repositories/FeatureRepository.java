@@ -8,7 +8,6 @@ import viettel.gpmn.platform.cms.data.features.FeatureData;
 import viettel.gpmn.platform.cms.data.features.FeatureModuleData;
 import viettel.gpmn.platform.cms.data.features.FeatureQuery;
 import viettel.gpmn.platform.cms.entities.Features;
-import viettel.gpmn.platform.core.data.users.UserFeatureData;
 import viettel.gpmn.platform.core.enums.DBStatus;
 import viettel.gpmn.platform.core.repositories.BaseRepository;
 

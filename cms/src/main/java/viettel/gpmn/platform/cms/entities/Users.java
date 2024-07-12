@@ -18,5 +18,4 @@ public class Users extends EntityWithAware {
     private String username;
     @Column
     private String password;
-
 }

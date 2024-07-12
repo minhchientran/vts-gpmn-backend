@@ -1,12 +1,14 @@
 package viettel.gpmn.platform.cms.entities;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import viettel.gpmn.platform.core.configs.jpa.LinkConverter;
 import viettel.gpmn.platform.core.entities.EntityWithAware;
 
 import java.time.LocalDate;
@@ -38,8 +40,8 @@ public class UserInfo extends EntityWithAware {
     private String tax_number;
     @Column
     private String citizenIdentificationNumber;
-    @Column
+    @Column @Convert(converter = LinkConverter.class)
     private String imageCardFront;
-    @Column
+    @Column @Convert(converter = LinkConverter.class)
     private String imageCardBack;
 }

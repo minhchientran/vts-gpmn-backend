@@ -56,7 +56,6 @@ public class SupplierService extends BaseService {
 
     public SupplierData getSupplierDetail(String supplierId) {
         Suppliers suppliers = supplierRepository.findById(supplierId).orElseThrow();
-        // TODO image
         return this.modelMapper.map(suppliers, SupplierData.class);
     }
 
@@ -69,10 +68,10 @@ public class SupplierService extends BaseService {
                 String logoFilePath = MinIOPath.SUPPLIER_LOGO + supplierData.getLogoFileName();
                 minIOService.WriteToMinIO(
                         new ByteArrayInputStream(Base64.getDecoder().decode(supplierData.getLogoFileData())),
-                        supplierData.getCode(),
+                        MinIOPath.MASTER_BUCKET,
                         logoFilePath
                 );
-                supplierData.setLogo(logoFilePath);
+                supplierData.setLogo(MinIOPath.MASTER_BUCKET + "/" + logoFilePath);
             }
 
             Suppliers supplier = this.saveAndReturn(supplierData);

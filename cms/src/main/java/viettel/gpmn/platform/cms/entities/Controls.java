@@ -15,15 +15,10 @@ import viettel.gpmn.platform.core.entities.EntityWithInfo;
 @Entity
 @Table(name = "controls")
 public class Controls extends EntityWithInfo {
-
-    @Column
-    @Enumerated(EnumType.ORDINAL)
+    @Column @Enumerated(EnumType.ORDINAL)
     private ControlType controlType;
-
     @Column
     private String description;
-
     @Column
     private String featureId;
-
 }

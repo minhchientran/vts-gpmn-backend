@@ -16,11 +16,8 @@ import viettel.gpmn.platform.core.entities.EntityWithAware;
 @Entity
 @Table(name = "module_feature_map")
 public class ModuleFeatureMap extends EntityWithAware {
-
     @Column
     private String moduleId;
-
     @Column
     private String featureId;
-
 }

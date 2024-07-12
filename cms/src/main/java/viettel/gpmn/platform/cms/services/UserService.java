@@ -105,26 +105,26 @@ public class UserService extends BaseService implements UserDetailsService {
                 }
 
                 UserInfo userInfo = modelMapper.map(userInfoData, UserInfo.class);
-                String imageCardFrontUrl = null;
                 if (userInfoData.getImageCardFrontData() != null && userInfoData.getImageCardFrontFileName() != null) {
-                    imageCardFrontUrl = MinIOPath.USER_CARD + userInfoData.getImageCardBackFileName();
+                    String imageCardFrontUrl = MinIOPath.USER_CARD + userInfoData.getImageCardBackFileName();
                     minIOService.WriteToMinIO(
                             new ByteArrayInputStream(Base64.getDecoder().decode(userInfoData.getImageCardBackData())),
                             MinIOPath.MASTER_BUCKET,
                             imageCardFrontUrl
                     );
+                    userInfo.setImageCardFront(MinIOPath.MASTER_BUCKET + "/" + imageCardFrontUrl);
                 }
-                userInfo.setImageCardFront(imageCardFrontUrl);
-                String imageCardBackUrl = null;
+
                 if (userInfoData.getImageCardBackData() != null && userInfoData.getImageCardBackFileName() != null) {
-                    imageCardBackUrl = MinIOPath.USER_CARD + userInfoData.getImageCardBackFileName();
+                    String imageCardBackUrl = MinIOPath.USER_CARD + userInfoData.getImageCardBackFileName();
                     minIOService.WriteToMinIO(
                             new ByteArrayInputStream(Base64.getDecoder().decode(userInfoData.getImageCardBackData())),
                             MinIOPath.MASTER_BUCKET,
                             imageCardBackUrl
                     );
+                    userInfo.setImageCardBack(MinIOPath.MASTER_BUCKET + "/" + imageCardBackUrl);
                 }
-                userInfo.setImageCardBack(imageCardBackUrl);
+
                 userInfoRepository.save(userInfo);
 
                 kafkaService.send(KafkaTopic.BROADCAST_NEW_RETAILER_INFO, userRegisterData.getRetailerData());

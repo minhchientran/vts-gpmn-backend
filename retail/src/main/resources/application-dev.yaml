@@ -1,29 +1,37 @@
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://10.30.174.212:8771/retail_platform
-    username: root
-    password: 123456a@A
+    url: jdbc:mariadb://${DATABASE_URL:10.30.174.212:8771/retail_platform}
+    username: ${DATABASE_USERNAME:root}
+    password: ${DATABASE_PASSWORD:123456a@A}
   jpa:
     show-sql: true
     open-in-view: false
   data:
     redis:
-      host: 10.230.191.178
-      port: 9379
+      host: ${REDIS_HOST:10.230.191.178}
+      port: ${REDIS_PORT:9379}
   kafka:
-    bootstrap-servers: 10.230.191.178:9092
+    bootstrap-servers: ${KAFKA_SERVER:10.230.191.178:9092}
     consumer:
       group-id: retail
 
-server:
-  port: 8101
-
 info:
   minio:
-    url: 10.30.174.212
-    port: 8773
+    url: ${MINIO_URL:10.30.174.212}
+    port: ${MINIO_PORT:8773}
+    username: ${MINIO_USERNAME:admin}
+    password: ${MINIO_PASSWORD:123456a@A}
     secure: false
-    username: admin
-    password: 123456a@A
-    fileSize: 104857600
+    file-size: 104857600
+  storage-service: ${STORAGE_SERVICE:10.230.191.178:8102}
+
+logging:
+  level:
+    net:
+      ttddyy:
+        dsproxy:
+          listener: debug
+
+server:
+  port: 8101

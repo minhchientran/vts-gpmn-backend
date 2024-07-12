@@ -15,12 +15,8 @@ import viettel.gpmn.platform.core.enums.Subsystem;
 @Entity
 @Table(name = "modules")
 public class Modules extends EntityWithInfo {
-
     @Column
     private String description;
-
-    @Column
-    @Enumerated(EnumType.ORDINAL)
+    @Column @Enumerated(EnumType.ORDINAL)
     private Subsystem subsystem;
-
 }

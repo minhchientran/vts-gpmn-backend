@@ -19,19 +19,14 @@ import java.util.Set;
 @Entity
 @Table(name = "features")
 public class Features extends EntityWithInfo {
-    @Column
-    @Enumerated(EnumType.ORDINAL)
+    @Column @Enumerated(EnumType.ORDINAL)
     private FeatureType featureType;
-
     @Column
     private Integer seq;
-
     @Column
     private String url;
-
     @Column
     private String description;
-
     @Column
     String parentFeatureId;
 
@@ -40,5 +35,4 @@ public class Features extends EntityWithInfo {
 
     @OneToMany(mappedBy="featureId", fetch = FetchType.EAGER)
     Set<Controls> listControl = new HashSet<>();
-
 }

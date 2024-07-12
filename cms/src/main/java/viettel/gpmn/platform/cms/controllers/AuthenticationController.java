@@ -1,5 +1,6 @@
 package viettel.gpmn.platform.cms.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -28,6 +29,7 @@ public class AuthenticationController extends BaseController {
     private JwtService jwtService;
     private OTPService otpService;
 
+    @Operation(summary = "Login")
     @SneakyThrows
     @PostMapping("/login")
     public Response authenticate(@RequestBody @Valid LoginBody loginBody) {
@@ -36,11 +38,13 @@ public class AuthenticationController extends BaseController {
         return Response.ok(new LoginResponse(jwtToken));
     }
 
+    @Operation(summary = "Get menu or role")
     @GetMapping(value = {"/features"})
     public Response getUserFeature() {
         return Response.ok(Objects.requireNonNull(TenantContext.getUserInfo()).getAuthorities());
     }
 
+    @Operation(summary = "Send OTP")
     @PostMapping("/otp")
     public Response sendOtp(
             @RequestParam @NotBlank OTPPrefix prefix,

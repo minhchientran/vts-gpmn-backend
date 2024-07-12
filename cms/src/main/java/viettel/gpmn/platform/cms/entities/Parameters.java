@@ -16,13 +16,10 @@ import viettel.gpmn.platform.core.entities.EntityWithAware;
 @Entity
 @Table(name = "parameters")
 public class Parameters extends EntityWithAware {
-
     @Column
     private String code;
-
     @Column
     private String value;
-
     @Column
     private String description;
 }

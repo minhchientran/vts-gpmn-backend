@@ -16,11 +16,8 @@ import viettel.gpmn.platform.core.entities.EntityWithInfo;
 @Entity
 @Table(name = "shop_types")
 public class ShopTypes extends EntityWithInfo {
-
     @Column
     private String shopTypeParentId;
-
     @Column
     private String moduleId;
-
 }

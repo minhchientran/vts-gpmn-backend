@@ -17,8 +17,6 @@ public class UserSupplierMap extends EntityWithAware {
     private String userId;
     @Column
     private String supplierId;
-    @Column
-    @Enumerated(EnumType.ORDINAL)
+    @Column @Enumerated(EnumType.ORDINAL)
     private Subsystem subsystem;
-
 }

@@ -1,5 +1,6 @@
 package viettel.gpmn.platform.cms.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,7 @@ public class ControlController extends BaseController {
 
     private ControlService controlService;
 
+    @Operation(summary = "Get page of controls in a feature")
     @GetMapping
     public Response getListControlsByFeature(
             @RequestParam @NotNull String featureId,
@@ -32,24 +34,28 @@ public class ControlController extends BaseController {
         return Response.ok(controlService.getListControlsByFeatureId(featureId, controlQuery, pageable));
     }
 
+    @Operation(summary = "Create controls in a feature")
     @PostMapping
     public Response createControls(@RequestBody List<ControlData> listControlData) {
         controlService.create(listControlData);
         return Response.ok();
     }
 
+    @Operation(summary = "Update controls in a feature")
     @PutMapping
     public Response updateControls(@RequestBody List<ControlData> listControlData) {
         controlService.update(listControlData);
         return Response.ok();
     }
 
+    @Operation(summary = "Update status of controls in a feature")
     @PutMapping(value = {"/status"})
     public Response updateControlsStatus(@RequestBody List<BaseData> listControlData) {
         controlService.updateStatus(listControlData);
         return Response.ok();
     }
 
+    @Operation(summary = "Get page attribute of controls in a feature")
     @GetMapping(value = {"/attribute"})
     public Response getListControlAttribute(
             @RequestParam @NotBlank String featureId,

@@ -19,7 +19,7 @@ public interface ModuleRepository extends BaseRepository<Modules> {
         from Modules m
         left join SupplierModuleMap smm on smm.moduleId = m.id
         where 1 = 1
-            and smm.supplierId not like :supplierId
+            and smm.supplierId not like :supplierId or smm.supplierId is null
     """)
     List<Modules> getListModuleNotInSupplierId(String supplierId);
 

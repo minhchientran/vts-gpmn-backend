@@ -17,7 +17,6 @@ import viettel.gpmn.platform.core.enums.ControlAttribute;
 public class SupplierControlMap extends EntityWithSupplierId {
     @Column
     private String controlId;
-    @Column
-    @Enumerated(EnumType.ORDINAL)
+    @Column @Enumerated(EnumType.ORDINAL)
     private ControlAttribute controlAttribute = ControlAttribute.ENABLE;
 }

@@ -1,12 +1,14 @@
 package viettel.gpmn.platform.cms.entities;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import viettel.gpmn.platform.core.configs.jpa.LinkConverter;
 import viettel.gpmn.platform.core.entities.EntityWithInfo;
 
 import java.time.LocalDateTime;
@@ -28,7 +30,7 @@ public class Suppliers extends EntityWithInfo {
     private String email;
     @Column
     private String address;
-    @Column
+    @Column @Convert(converter = LinkConverter.class)
     private String logo;
     @Column
     private LocalDateTime activeDate;

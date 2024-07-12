@@ -31,7 +31,7 @@ public class MinIOService {
         try {
             inputStream = minioClient.getObject(getObjectArgs);
             Response.ResponseBuilder builder = Response.ok(inputStream);
-            builder.type(MediaType.APPLICATION_OCTET_STREAM_TYPE);
+            builder.header("Content-Type", "image/png");
             builder.header("Content-Disposition", "attachment; filename=" + filePath);
             return builder.build();
         }
