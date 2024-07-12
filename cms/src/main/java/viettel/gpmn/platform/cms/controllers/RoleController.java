@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import viettel.gpmn.platform.cms.data.features.FeatureQuery;
-import viettel.gpmn.platform.cms.data.role.RoleData;
-import viettel.gpmn.platform.cms.data.role.RoleFeatureMapData;
-import viettel.gpmn.platform.cms.data.role.RoleQuery;
-import viettel.gpmn.platform.cms.data.role.StaffRoleData;
+import viettel.gpmn.platform.cms.data.role.*;
 import viettel.gpmn.platform.cms.services.FeatureService;
 import viettel.gpmn.platform.cms.services.RoleService;
 import viettel.gpmn.platform.core.controllers.BaseController;
@@ -59,6 +56,12 @@ public class RoleController extends BaseController {
     @PostMapping(value = {"/staff"})
     public Response addRole2Staff(@RequestBody List<StaffRoleData> listStaffRoleData) {
         roleService.saveRole2Staff(listStaffRoleData);
+        return Response.ok();
+    }
+
+    @PutMapping(value = {"/staff/{staffRoleId}"})
+    public Response updateRole2Staff(@PathVariable(value = "staffRoleId") String staffRoleId, @RequestBody StaffRoleUpdateData staffRoleData) {
+        roleService.updateRole2Staff(staffRoleId, staffRoleData);
         return Response.ok();
     }
 
