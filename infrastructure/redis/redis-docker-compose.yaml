@@ -1,0 +1,14 @@
+version: '3.3'
+
+services:
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - "9379:6379"
+    volumes:
+      - D:\Projects\Research\Redis\data:/root/redis
+    environment:
+      - REDIS_PASSWORD=123456a@A
+      - REDIS_PORT=6379
+      - REDIS_DATABASES=16

@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  nginx:
+    build: 
+      context: .
+    container_name: retail-platform-nginx
+    restart: "always"
+    ports:
+      - "8999:80"
