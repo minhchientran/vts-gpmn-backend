@@ -90,7 +90,7 @@ public class RoleController extends BaseController {
 
     @Operation(summary = "Get list of features in a roles")
     @GetMapping(value = {"/{roleId}/features"})
-    public Response getListFeatureByRoleId(@PathVariable String roleId, FeatureQuery featureQuery, Pageable pageable) {
+    public Response getListFeatureByRoleId(@PathVariable String roleId, RoleFeatureQuery featureQuery, Pageable pageable) {
         return Response.ok(featureService.getListFeatureByRole(roleId, featureQuery, pageable));
     }
 
@@ -107,4 +107,10 @@ public class RoleController extends BaseController {
         return Response.ok();
     }
 
+    @Operation(summary = "Update status feature of role")
+    @PutMapping(value = {"/{roleId}/features/status"})
+    public Response updateFeatureRoleStatus(@PathVariable String roleId, @RequestBody List<BaseData> listRoleFeature) {
+        featureService.updateRoleFeatureStatus(roleId, listRoleFeature);
+        return Response.ok();
+    }
 }

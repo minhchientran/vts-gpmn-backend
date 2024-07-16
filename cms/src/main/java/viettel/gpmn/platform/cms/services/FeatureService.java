@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import viettel.gpmn.platform.cms.data.features.FeatureData;
 import viettel.gpmn.platform.cms.data.features.FeatureModuleData;
 import viettel.gpmn.platform.cms.data.features.FeatureQuery;
+import viettel.gpmn.platform.cms.data.role.RoleFeatureData;
+import viettel.gpmn.platform.cms.data.role.RoleFeatureQuery;
 import viettel.gpmn.platform.cms.entities.Features;
 import viettel.gpmn.platform.cms.repositories.FeatureRepository;
 import viettel.gpmn.platform.core.data.BaseData;
@@ -56,7 +58,7 @@ public class FeatureService extends BaseService {
         return featureRepository.getFeatureInModule(moduleId, isInModule, featureQuery, pageable);
     }
 
-    public Page<FeatureModuleData> getListFeatureByRole(String roleId, FeatureQuery featureQuery, Pageable pageable) {
+    public Page<RoleFeatureData> getListFeatureByRole(String roleId, RoleFeatureQuery featureQuery, Pageable pageable) {
         return featureRepository.getListFeatureByRole(roleId, featureQuery, pageable);
     }
     
@@ -65,4 +67,8 @@ public class FeatureService extends BaseService {
         return this.modelMapper.map(listFeature, new TypeToken<List<FeatureData>>() {}.getType());
     }
 
+    @Transactional
+    public void updateRoleFeatureStatus(String roleId, List<BaseData> listRoleFeature) {
+        listRoleFeature.forEach(roleFeatureData -> featureRepository.updateRoleFeatureStatus(roleId, roleFeatureData.getId(), roleFeatureData.getStatus()));
+    }
 }

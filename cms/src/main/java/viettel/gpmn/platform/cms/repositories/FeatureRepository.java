@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import viettel.gpmn.platform.cms.data.features.FeatureData;
 import viettel.gpmn.platform.cms.data.features.FeatureModuleData;
 import viettel.gpmn.platform.cms.data.features.FeatureQuery;
+import viettel.gpmn.platform.cms.data.role.RoleFeatureData;
+import viettel.gpmn.platform.cms.data.role.RoleFeatureQuery;
 import viettel.gpmn.platform.cms.entities.Features;
 import viettel.gpmn.platform.core.enums.DBStatus;
 import viettel.gpmn.platform.core.repositories.BaseRepository;
@@ -99,39 +101,43 @@ public interface FeatureRepository extends BaseRepository<Features> {
     Page<FeatureModuleData> getFeatureInModule(String moduleId, Boolean isInModule, FeatureQuery featureQuery, Pageable pageable);
 
     @Query(value = """
-                    select distinct new viettel.gpmn.platform.cms.data.features.FeatureModuleData(
+                    select distinct new viettel.gpmn.platform.cms.data.role.RoleFeatureData(
+                        f.id,
                         f.code,
                         f.name,
-                        pf.code,
                         f.featureType,
                         f.url,
                         f.seq,
+                        f.parentFeatureId,
+                        pf.code,
                         mfm.moduleId,
-                        f.id,
-                        mfm.status
+                        m.code,
+                        rfm.status
                     )
                     from Features f
                     join RoleFeatureMap rfm
                         on rfm.featureId = f.id
-                        and rfm.status = viettel.gpmn.platform.core.enums.DBStatus.ACTIVE
                     left join Features pf
                         on pf.id = f.parentFeatureId
                         and pf.status = viettel.gpmn.platform.core.enums.DBStatus.ACTIVE
                     left join ModuleFeatureMap mfm
                         on mfm.featureId = f.id
-                        and mfm.moduleId = :moduleId
                         and mfm.status = viettel.gpmn.platform.core.enums.DBStatus.ACTIVE
+                    left join Modules m
+                        on mfm.moduleId = m.id
+                        and m.status = viettel.gpmn.platform.core.enums.DBStatus.ACTIVE
                     where 1 = 1
                         and rfm.roleId = :roleId
-                        and ( :#{#featureQuery.name} is null
-                            or f.name like %:#{#featureQuery.name}%
-                            or f.code like %:#{#featureQuery.name}%
+                        and ( coalesce(:#{#roleFeatureQuery.name}, null) is null
+                            or f.name like %:#{#roleFeatureQuery.name}%
+                            or f.code like %:#{#roleFeatureQuery.name}%
                             )
-                        and ( :#{#featureQuery.parentId} is null or f.parentFeatureId = :#{#featureQuery.parentId} )
-                        and ( :#{#featureQuery.featureType} is null or f.featureType = :#{#featureQuery.featureType} )
-                        and ( :#{#featureQuery.status} is null or f.status = :#{#featureQuery.status} )
+                        and ( coalesce(:#{#roleFeatureQuery.parentId}, null) is null or f.parentFeatureId in :#{#roleFeatureQuery.parentId} )
+                        and ( coalesce(:#{#roleFeatureQuery.featureType}, null) is null or f.featureType in :#{#roleFeatureQuery.featureType} )
+                        and ( coalesce(:#{#roleFeatureQuery.status}, null) is null or rfm.status in :#{#roleFeatureQuery.status} )
+                        and ( coalesce(:#{#roleFeatureQuery.moduleId}, null) is null or mfm.moduleId in :#{#roleFeatureQuery.moduleId} )
     """)
-    Page<FeatureModuleData> getListFeatureByRole(String roleId, FeatureQuery featureQuery, Pageable pageable);
+    Page<RoleFeatureData> getListFeatureByRole(String roleId, RoleFeatureQuery roleFeatureQuery, Pageable pageable);
 
     @Query(value = """
         select distinct f
@@ -147,4 +153,8 @@ public interface FeatureRepository extends BaseRepository<Features> {
     @Modifying
     @Query("update Features f set f.status = :status where f.id = :featureId")
     void updateStatus(String featureId, DBStatus status);
+
+    @Modifying
+    @Query("update RoleFeatureMap rfm set rfm.status = :status where rfm.roleId = :roleId and rfm.featureId = :featureId")
+    void updateRoleFeatureStatus(String roleId, String featureId, DBStatus status);
 }
