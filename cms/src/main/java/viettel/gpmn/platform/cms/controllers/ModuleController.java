@@ -72,6 +72,12 @@ public class ModuleController extends BaseController {
         return Response.ok(featureService.getFeaturesModule(moduleId, isInModule, featureQuery, pageable));
     }
 
+    @Operation(summary = "Get hierarchy of features for a module")
+    @GetMapping(value = {"/featuresHierarchy"})
+    public Response getFeatureHierarchy() {
+        return Response.ok(featureService.getListFeatureHierarchy(null));
+    }
+
     @Operation(summary = "Add feature to a module")
     @PostMapping(value = {"/features"})
     public Response addFeature2Module(
