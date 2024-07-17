@@ -146,11 +146,13 @@ public interface FeatureRepository extends BaseRepository<Features> {
             on rfm.featureId = f.id
             and rfm.status = viettel.gpmn.platform.core.enums.DBStatus.ACTIVE
         where 1 = 1
+            and f.parentFeatureId is null
             and 1 = (
                 case
                 when (:roleId is not null and rfm.roleId <> :roleId) then 1
-                when (:roleId is null and) then 1
+                when (:roleId is null) then 1
                 else 0
+                end
             )
     """)
     List<Features> getListFeatureHierarchy(String roleId);
